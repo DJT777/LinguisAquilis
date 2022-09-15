@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %} Find Courses {% endblock %} {% block
+content %}
+<section class="container">
+  <img class="image" src="/static/images/laying.svg" />
+</section>
+<section class="container">
+  <div class="block">
+    <form method="POST">
+      <label class="subtitle is-2" for="userInterests"
+        >What are your interests?</label
+      ><br />
+      <input
+        class="input is-large is-focused"
+        type="text"
+        id="userInput"
+        name="userInput"
+        placeholder="Enter User Input"
+      /><br />
+      <input
+        formmethod="POST"
+        type="submit"
+        value="Submit"
+        class="button is-large"
+      />
+    </form>
+  </div>
+</section>
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from absl import logging
 
 import tensorflow.compat.v1 as tf
@@ -73,24 +73,42 @@ def process_to_IDs_in_sparse_format(sp, sentences):
   return (values, indices, dense_shape)
 
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
+@app.route("/findcourses", methods=['GET', 'POST'])
+def findcourses():
+    classes = ['Class 1','Class 2','Class 3']
     if request.method == "GET":
-        return render_template('index.html')
-    else:
+        return render_template('findcourses.html', mymethod="GET")
+    if request.method == "POST":
         # get form data
         data = []
         user_description = request.form['userInput']
         user_description_embedding = create_embeddings(user_description)
-        labels, distances = p.knn_query(user_description_embedding, k = 5)
+        labels, distances = p.knn_query(user_description_embedding, k=5)
         labels_to_return = labels[0]
         recommendations_user_text = []
         for index in labels_to_return:
             recommendations_user_text.append(class_data[index])
             print(class_data[index])
-        #print(labels_to_return)
+        # print(labels_to_return)
         print(recommendations_user_text)
-        return render_template('index.html', recommendations_user_text=jsonify(recommendations_user_text))
+        return render_template('results.html', returnList=recommendations_user_text)
+    else:
+        # get form data
+        return '<h1>Hello Default</h1>'
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == "GET":
+        return render_template('index.html')
+    if request.method == "POST":
+        return redirect(url_for("findcourses"))
+    else:
+        # get form data
+        return '<h1>Hello Default</h1>'
+
+
+
 
 if __name__ == '__main__':
 
@@ -99,7 +117,8 @@ if __name__ == '__main__':
 
 
     print(class_data[0])
-    def embed(input):
-        return model(input)
+
     app.run(debug=True)
 
+def embed(input):
+    return model(input)
