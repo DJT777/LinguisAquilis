@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from absl import logging
 
 import tensorflow.compat.v1 as tf
@@ -90,7 +90,7 @@ def index():
             print(class_data[index])
         #print(labels_to_return)
         print(recommendations_user_text)
-        return render_template('index.html', recommendations_user_text=recommendations_user_text)
+        return render_template('index.html', recommendations_user_text=jsonify(recommendations_user_text))
 
 if __name__ == '__main__':
 
