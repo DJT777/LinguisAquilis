@@ -1,31 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LinguisAquilis</title>
-    <link rel="stylesheet" href="/static/styles.css" />
-  </head>
-  <body>
-    <header></header>
-    <main>
-      <section>
-        <form action="">
-          <label for="userInterests">User Input</label><br />
-          <input
-            type="text"
-            id="userInput"
-            name="userInput"
-            placeholder="Enter User Input"
-          /><br />
-          <input type="submit" value="Submit" />
-        </form>
-      </section>
-      <section>
-        <textarea id="outputResults"></textarea>
-      </section>
-    </main>
-    <footer></footer>
-  </body>
-</html>
+{% extends "base.html" %} {% block title %} Home Page {% endblock %} {% block
+content %}
+
+<h1 class="title is-1 is-centered">Find Courses That Fit Your Lifestyle</h1>
+<section class="container">
+  <img class="image" src="/static/images/clumsy.svg" />
+</section>
+<section class="container">
+  <form method="POST">
+    <input
+      class="button is-danger is-large"
+      type="submit"
+      value="Find Courses"
+    />
+  </form>
+</section>
+
+{% endblock %}

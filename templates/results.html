@@ -1,0 +1,7 @@
+{% extends "base.html" %} {% block title %} Search Results {% endblock %} {%
+block content %}
+<h1 class="title is-1">Results</h1>
+
+{% for x in returnList %}
+<div class="tags are-large"><span class="tag is-primary">{{x}}</span></div>
+{% endfor %} {% endblock %}
