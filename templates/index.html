@@ -1,8 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World</title>
-  </head>
-<h1>Hello World</h1>
-</html>
+{% extends "base.html" %} {% block title %} Home Page {% endblock %} {% block
+content %}
+
+<h1 class="title is-1 is-centered">Find Courses That Fit Your Lifestyle</h1>
+<section class="container">
+  <img class="image" src="/static/images/clumsy.svg" />
+</section>
+<section class="container">
+  <form method="POST">
+    <input
+      class="button is-danger is-large"
+      type="submit"
+      value="Find Courses"
+    />
+  </form>
+</section>
+
+{% endblock %}
