@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from absl import logging
 
 import tensorflow.compat.v1 as tf
@@ -13,9 +13,11 @@ import pandas as pd
 import re
 import seaborn as sns
 import hnswlib
+import json
 
 app = Flask(__name__)
-
+class_json = open('data.json')
+class_data = json.load(class_json)
 
 def create_embeddings(userInput):
     module = hub.Module("https://tfhub.dev/google/universal-sentence-encoder-lite/2")
@@ -82,8 +84,13 @@ def index():
         user_description_embedding = create_embeddings(user_description)
         labels, distances = p.knn_query(user_description_embedding, k = 5)
         labels_to_return = labels[0]
-        print(labels_to_return)
-        return render_template('index.html')
+        recommendations_user_text = []
+        for index in labels_to_return:
+            recommendations_user_text.append(class_data[index])
+            print(class_data[index])
+        #print(labels_to_return)
+        print(recommendations_user_text)
+        return render_template('index.html', recommendations_user_text=jsonify(recommendations_user_text))
 
 if __name__ == '__main__':
 
@@ -91,6 +98,7 @@ if __name__ == '__main__':
     p.load_index("./notebooks/index.bin")
 
 
+    print(class_data[0])
     def embed(input):
         return model(input)
     app.run(debug=True)
