@@ -86,7 +86,8 @@ def index():
         labels_to_return = labels[0]
         recommendations_user_text = []
         for index in labels_to_return:
-            recommendations_user_text.append(index)
+            recommendations_user_text.append(class_data[index])
+            print(class_data[index])
         #print(labels_to_return)
         print(recommendations_user_text)
         return render_template('index.html', recommendations_user_text=recommendations_user_text)
