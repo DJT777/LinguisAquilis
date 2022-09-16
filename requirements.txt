@@ -1,0 +1,11 @@
+flask
+absl-py
+tensorflow
+tensorflow_hub
+sentencepiece
+matplotlib
+numpy
+pandas
+regex
+seaborn
+hnswlib
