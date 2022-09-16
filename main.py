@@ -83,6 +83,8 @@ def findcourses():
         data = []
         user_description = request.form['userInput']
         user_description_embedding = create_embeddings(user_description)
+        p = hnswlib.Index(space='cosine', dim=512)
+        p.load_index("./notebooks/index.bin")
         labels, distances = p.knn_query(user_description_embedding, k=5)
         labels_to_return = labels[0]
         recommendations_user_text = []

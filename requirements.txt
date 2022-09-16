@@ -1,12 +1,11 @@
 flask
-absl
+absl-py
 tensorflow
 tensorflow_hub
 sentencepiece
 matplotlib
 numpy
-os
 pandas
-re
+regex
 seaborn
 hnswlib
