@@ -2,26 +2,56 @@ main {
   margin: 150px;
 }
 body {
-  font-size: larger;
+  background-image: url('/static/images/wingsgray.jpg');
+  font-family: Montserrat, sans-serif;
+}
+section {
+  padding-bottom: 15px;
+}
+select {
+  padding: 4px;
+  font-size: 16px;
+  border-radius: 5px;
 }
 .body-content {
   padding: 40px;
 }
-/*
-input[type='submit'] {
-  padding: 10px;
-  background-color: #ff5678;
-  cursor: pointer;
+.landing-image {
+  width: 50%;
+  align-self: center;
 }
-*/
+
+input[type='text'] {
+  padding: 1px 10px;
+  font-size: 8px;
+  width: 700px;
+}
+
 /*New*/
+.button {
+  margin: 10px;
+}
+label {
+  font-family: Montserrat, sans-serif;
+  color: white;
+  text-align: center;
+}
+
+.flex-container {
+  text-align: center;
+  font-family: Montserrat, sans-serif;
+  font-size: 28px;
+}
+.my-title {
+  color: white;
+}
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  border: 1px solid #e7e7e7;
-  background-color: #f3f3f3;
+  border: 1px solid #002856;
+  background-color: #002856;
 }
 
 li {
@@ -30,17 +60,18 @@ li {
 
 li a {
   display: block;
-  color: #666;
+  color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
 }
 
 li a:hover:not(.active) {
-  background-color: #ddd;
+  background-color: #1e416a;
+  color: white;
 }
 
 li a.active {
   color: white;
-  background-color: #ff5678;
+  background-color: #002856;
 }

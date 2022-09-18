@@ -1,26 +1,58 @@
 {% extends "base.html" %} {% block title %} Find Courses {% endblock %} {% block
 content %}
-<section class="container">
-  <img class="image" src="/static/images/laying.svg" />
+<section class="flex-container container">
+  <form method="POST">
+    <label class="my-title" for="userInterests">Select a class</label>
+    <div>
+      <select class="select">
+        {% for x in returnList %}
+        <option value="">{{x}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <input
+      formmethod="POST"
+      type="submit"
+      value="Find Similar"
+      class="button"
+    />
+  </form>
 </section>
-<section class="container">
+<section class="flex-container container">
   <div class="block">
     <form method="POST">
-      <label class="subtitle is-2" for="userInterests"
-        >What are your interests?</label
+      <label class="my-title" for="userInterests"
+        >Or tell us about your interests</label
       ><br />
       <input
-        class="input is-large is-focused"
+        class="input is-medium is-focused"
         type="text"
         id="userInput"
         name="userInput"
-        placeholder="Enter User Input"
+        placeholder="Type your interests"
+      /><br />
+      <input formmethod="POST" type="submit" value="Submit" class="button" />
+    </form>
+  </div>
+</section>
+<section class="flex-container container">
+  <div class="block">
+    <form method="POST">
+      <label class="my-title" for="userInterests"
+        >We can also recommend a Major</label
+      ><br />
+      <input
+        class="input is-medium is-focused"
+        type="text"
+        id="userInput"
+        name="userInputMajor"
+        placeholder="Type your interests"
       /><br />
       <input
         formmethod="POST"
         type="submit"
-        value="Submit"
-        class="button is-large"
+        value="Find a Major"
+        class="button button"
       />
     </form>
   </div>

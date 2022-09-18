@@ -34,7 +34,7 @@ def create_embeddings(userInput):
     sp = spm.SentencePieceProcessor()
     with tf.io.gfile.GFile(spm_path, mode="rb") as f:
         sp.LoadFromSerializedProto(f.read())
-    print("SentencePiece model loaded at {}.".format(spm_path))
+    #print("SentencePiece model loaded at {}.".format(spm_path))
 
     messages = []
     messages.append(userInput)
@@ -52,7 +52,7 @@ def create_embeddings(userInput):
                        input_placeholder.indices: indices,
                        input_placeholder.dense_shape: dense_shape})
 
-        print(message_embeddings[0])
+        #print(message_embeddings[0])
         return message_embeddings[0]
         #for i, message_embedding in enumerate(np.array(message_embeddings).tolist()):
         #    print("Message: {}".format(messages[i]))
@@ -72,12 +72,23 @@ def process_to_IDs_in_sparse_format(sp, sentences):
   indices=[[row,col] for row in range(len(ids)) for col in range(len(ids[row]))]
   return (values, indices, dense_shape)
 
+def filter_course(course):
+    if(course not in class_data):
+        return True
+    else:
+        return False
+
 
 @app.route("/findcourses", methods=['GET', 'POST'])
 def findcourses():
-    classes = ['Class 1','Class 2','Class 3']
     if request.method == "GET":
-        return render_template('findcourses.html', mymethod="GET")
+        class_data_copy = []
+        #filteredData = filter(filter_course, class_data_copy)
+
+        for x in class_data:
+            if x['course_title'] not in class_data_copy:
+                    class_data_copy.append(x['course_title'].strip())
+        return render_template('findcourses.html', mymethod="GET", returnList=class_data_copy)
     if request.method == "POST":
         # get form data
         data = []
@@ -92,7 +103,7 @@ def findcourses():
             recommendations_user_text.append(class_data[index])
             print(class_data[index])
         # print(labels_to_return)
-        print(recommendations_user_text)
+        #print(recommendations_user_text)
         return render_template('results.html', returnList=recommendations_user_text)
     else:
         # get form data
@@ -109,16 +120,11 @@ def index():
         # get form data
         return '<h1>Hello Default</h1>'
 
-
-
-
 if __name__ == '__main__':
 
     p = hnswlib.Index(space='cosine', dim=512)
     p.load_index("./notebooks/index.bin")
-
-
-    print(class_data[0])
+   # print(class_data[0])
 
     app.run(debug=True)
 
