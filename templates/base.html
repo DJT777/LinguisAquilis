@@ -12,6 +12,10 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <script
+      src="https://kit.fontawesome.com/42e7bd55fd.js"
+      crossorigin="anonymous"
+    ></script>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='styles.css')}}"
@@ -19,12 +23,22 @@
   </head>
   <body>
     <header>
-      <ul>
-        <li><a class="active" href="{{ url_for('index') }}">Home</a></li>
-        <li><a href="#news">News</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="#about">About</a></li>
-      </ul>
+      <div class="">
+        <ul>
+          <li><div class="navbar-brand">
+            <a class="navbar-item" href="https://bulma.io">
+              <img
+                src="/static/images/usi-logo-horizontal.png"
+                alt="Bulma: Free, open source, and modern CSS framework based on Flexbox"
+                width="112"
+                height="28"
+              />
+            </a></li>
+          <li><a class="active" href="{{ url_for('index') }}">Home</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </div>
     </header>
     <div class="body-content">
       {% block content %} {% endblock %}
