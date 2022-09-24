@@ -90,7 +90,7 @@ def findcourses():
                     class_data_copy.append(x['course_title'].strip())
         return render_template('findcourses.html', mymethod="GET", returnList=class_data_copy)
     if request.method == "POST":
-            if request.form['submitButton'] == "submitUserDescription":
+            if request.form['submitButton'] == "Submit User Description":
                 # get form data
                 data = []
                 user_description = request.form['userInputDescription']
