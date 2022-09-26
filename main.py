@@ -78,39 +78,47 @@ def filter_course(course):
     else:
         return False
 
-@app.route("/findcourses", methods=['GET', 'POST'])
+
+@app.route("/findcourses", methods=['GET', 'POST', "PUT"])
 def findcourses():
     if request.method == "GET":
         class_data_copy = []
         #filteredData = filter(filter_course, class_data_copy)
+
         for x in class_data:
             if x['course_title'] not in class_data_copy:
                     class_data_copy.append(x['course_title'].strip())
         return render_template('findcourses.html', mymethod="GET", returnList=class_data_copy)
     if request.method == "POST":
-        # get form data
-        data = []
-        # Gets input from Dropdown list aka. the selected value
-        user_description = request.form['userDropdown']
-        # Gets input from the second textbox - This is the interest text area.
-        user_description = request.form['userInput']
-        # Gets input from the thrid textbox - This is for the major recommendation
-        user_description = request.form['userInputMajor']
-        user_description_embedding = create_embeddings(user_description)
-        p = hnswlib.Index(space='cosine', dim=512)
-        p.load_index("./notebooks/index.bin")
-        labels, distances = p.knn_query(user_description_embedding, k=5)
-        labels_to_return = labels[0]
-        recommendations_user_text = []
-        for index in labels_to_return:
-            recommendations_user_text.append(class_data[index])
-            print(class_data[index])
-        # print(labels_to_return)
-        #print(recommendations_user_text)
-        return render_template('results.html', returnList=recommendations_user_text)
-    else:
-        # get form data
-        return '<h1>Hello Default</h1>'
+            if request.form['submitButton'] == "Submit User Description":
+                # get form data
+                data = []
+                user_description = request.form['userInputDescription']
+                user_description_embedding = create_embeddings(user_description)
+                p = hnswlib.Index(space='cosine', dim=512)
+                p.load_index("./notebooks/index.bin")
+                labels, distances = p.knn_query(user_description_embedding, k=5)
+                labels_to_return = labels[0]
+                recommendations_user_text = []
+                for index in labels_to_return:
+                    recommendations_user_text.append(class_data[index])
+                    print(class_data[index])
+                # print(labels_to_return)
+                #print(recommendations_user_text)
+                return render_template('results.html', returnList=recommendations_user_text)
+            if request.form['submitButton'] == "Find Similar":
+                print("SELECTED CLASS:" + request.form['selectClass'])
+                selectedClass = request.form['selectClass']
+                selectedClassEmbedding = create_embeddings(selectedClass)
+                p = hnswlib.Index(space='cosine', dim=512)
+                p.load_index("./notebooks/index.bin")
+                labels, distances = p.knn_query(selectedClassEmbedding, k=5)
+                labels_to_return = labels[0]
+                recommendations_user_text = []
+                for index in labels_to_return:
+                    recommendations_user_text.append(class_data[index])
+                    print(class_data[index])
+                return render_template("helloworld.html", selectedClass = selectedClass, recommendedClasses = recommendations_user_text)
 
 
 @app.route('/', methods=['GET', 'POST'])

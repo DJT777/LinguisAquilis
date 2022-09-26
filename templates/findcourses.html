@@ -4,16 +4,16 @@ content %}
   <form method="POST">
     <label class="my-title" for="userInterests">Select a class</label>
     <div>
-      <select name="userDropdown" class="select">
+      <select name="selectClass" class="select">
         {% for x in returnList %}
-        <option value="">{{x}}</option>
+        <option value="{{ x }}">{{x}}</option>
         {% endfor %}
       </select>
     </div>
     <input
       formmethod="POST"
       type="submit"
-      name="dropdownForm"
+      name="submitButton"
       value="Find Similar"
       class="button"
     />
@@ -24,21 +24,16 @@ content %}
     <form method="POST">
       <label class="my-title" for="userInterests"
         >Or tell us about your interests</label
-      ><br />
+      ><br /><h1>HelloWorld</h1>
       <input
         class="input is-medium is-focused"
         type="text"
-        id="userInput"
-        name="userInput"
+        id="userInputDescription"
+        name="userInputDescription"
+        value="submitUserDescription"
         placeholder="Type your interests"
       /><br />
-      <input
-        formmethod="POST"
-        type="submit"
-        name="userInput"
-        value="Submit"
-        class="button"
-      />
+      <input formmethod="POST" type="submit" name="submitButton" value="Submit User Description" class="button" />
     </form>
   </div>
 </section>
@@ -51,7 +46,7 @@ content %}
       <input
         class="input is-medium is-focused"
         type="text"
-        id="userInputMajor"
+        id="userInput1"
         name="userInputMajor"
         placeholder="Type your interests"
       /><br />
@@ -59,7 +54,6 @@ content %}
         formmethod="POST"
         type="submit"
         value="Find a Major"
-        name="userInputMajor"
         class="button button"
       />
     </form>
