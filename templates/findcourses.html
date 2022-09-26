@@ -4,7 +4,7 @@ content %}
   <form method="POST">
     <label class="my-title" for="userInterests">Select a class</label>
     <div>
-      <select class="select">
+      <select name="userDropdown" class="select">
         {% for x in returnList %}
         <option value="">{{x}}</option>
         {% endfor %}
@@ -13,6 +13,7 @@ content %}
     <input
       formmethod="POST"
       type="submit"
+      name="dropdownForm"
       value="Find Similar"
       class="button"
     />
@@ -31,7 +32,13 @@ content %}
         name="userInput"
         placeholder="Type your interests"
       /><br />
-      <input formmethod="POST" type="submit" value="Submit" class="button" />
+      <input
+        formmethod="POST"
+        type="submit"
+        name="userInput"
+        value="Submit"
+        class="button"
+      />
     </form>
   </div>
 </section>
@@ -44,7 +51,7 @@ content %}
       <input
         class="input is-medium is-focused"
         type="text"
-        id="userInput"
+        id="userInputMajor"
         name="userInputMajor"
         placeholder="Type your interests"
       /><br />
@@ -52,6 +59,7 @@ content %}
         formmethod="POST"
         type="submit"
         value="Find a Major"
+        name="userInputMajor"
         class="button button"
       />
     </form>

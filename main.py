@@ -78,13 +78,11 @@ def filter_course(course):
     else:
         return False
 
-
 @app.route("/findcourses", methods=['GET', 'POST'])
 def findcourses():
     if request.method == "GET":
         class_data_copy = []
         #filteredData = filter(filter_course, class_data_copy)
-
         for x in class_data:
             if x['course_title'] not in class_data_copy:
                     class_data_copy.append(x['course_title'].strip())
@@ -92,7 +90,12 @@ def findcourses():
     if request.method == "POST":
         # get form data
         data = []
+        # Gets input from Dropdown list aka. the selected value
+        user_description = request.form['userDropdown']
+        # Gets input from the second textbox - This is the interest text area.
         user_description = request.form['userInput']
+        # Gets input from the thrid textbox - This is for the major recommendation
+        user_description = request.form['userInputMajor']
         user_description_embedding = create_embeddings(user_description)
         p = hnswlib.Index(space='cosine', dim=512)
         p.load_index("./notebooks/index.bin")
