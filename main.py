@@ -94,6 +94,7 @@ def findcourses():
                 # get form data
                 data = []
                 user_description = request.form['userInputDescription']
+                print("User Description:" +user_description)
                 user_description_embedding = create_embeddings(user_description)
                 p = hnswlib.Index(space='cosine', dim=512)
                 p.load_index("./notebooks/index.bin")
@@ -103,8 +104,8 @@ def findcourses():
                 for index in labels_to_return:
                     recommendations_user_text.append(class_data[index])
                     print(class_data[index])
-                # print(labels_to_return)
-                #print(recommendations_user_text)
+                print(labels_to_return)
+                print(recommendations_user_text)
                 return render_template('results.html', returnList=recommendations_user_text)
             if request.form['submitButton'] == "Find Similar":
                 print("SELECTED CLASS:" + request.form['selectClass'])
