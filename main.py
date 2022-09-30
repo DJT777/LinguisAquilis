@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from absl import logging
-
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-
 import tensorflow_hub as hub
 import sentencepiece as spm
 import matplotlib.pyplot as plt
@@ -14,6 +12,7 @@ import re
 import seaborn as sns
 import hnswlib
 import json
+import sentencepiece
 
 app = Flask(__name__)
 class_json = open('data.json')
@@ -21,6 +20,7 @@ class_data = json.load(class_json)
 
 def create_embeddings(userInput):
     module = hub.Module("https://tfhub.dev/google/universal-sentence-encoder-lite/2")
+    # module = hub.Module("module\universal-sentence-encoder-lite_2\tfhub_module.pb")
     input_placeholder = tf.sparse_placeholder(tf.int64, shape=[None, None])
     encodings = module(
         inputs=dict(
@@ -88,12 +88,13 @@ def findcourses():
         for x in class_data:
             if x['course_title'] not in class_data_copy:
                     class_data_copy.append(x['course_title'].strip())
-        return render_template('findcourses.html', mymethod="GET", returnList=class_data_copy)
+        return render_template('findcourses.html', mymethod="GET", returnList=class_data_copy, containsData=False)
     if request.method == "POST":
             if request.form['submitButton'] == "Submit User Description":
                 # get form data
                 data = []
                 user_description = request.form['userInputDescription']
+                print("User Description:" +user_description)
                 user_description_embedding = create_embeddings(user_description)
                 p = hnswlib.Index(space='cosine', dim=512)
                 p.load_index("./notebooks/index.bin")
@@ -103,9 +104,9 @@ def findcourses():
                 for index in labels_to_return:
                     recommendations_user_text.append(class_data[index])
                     print(class_data[index])
-                # print(labels_to_return)
-                #print(recommendations_user_text)
-                return render_template('results.html', returnList=recommendations_user_text)
+                print(labels_to_return)
+                print(recommendations_user_text)
+                return render_template('findcourses.html', returnList=recommendations_user_text, containsData=True)
             if request.form['submitButton'] == "Find Similar":
                 print("SELECTED CLASS:" + request.form['selectClass'])
                 selectedClass = request.form['selectClass']
@@ -118,7 +119,7 @@ def findcourses():
                 for index in labels_to_return:
                     recommendations_user_text.append(class_data[index])
                     print(class_data[index])
-                return render_template("helloworld.html", selectedClass = selectedClass, recommendedClasses = recommendations_user_text)
+                return render_template("findcourses.html", containsData="dropdown", selectedClass = selectedClass, recommendedClasses = recommendations_user_text)
 
 
 @app.route('/', methods=['GET', 'POST'])

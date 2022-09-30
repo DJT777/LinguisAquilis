@@ -1,62 +1,91 @@
 {% extends "base.html" %} {% block title %} Find Courses {% endblock %} {% block
 content %}
-<section class="flex-container container">
-  <form method="POST">
-    <label class="my-title" for="userInterests">Select a class</label>
-    <div>
-      <select name="selectClass" class="select">
-        {% for x in returnList %}
-        <option value="{{ x }}">{{x}}</option>
-        {% endfor %}
-      </select>
+<main class="find-body">
+  <div class="columns">
+    <div class="column auto"></div>
+    <div class="column is-8">
+      <section class="flex-container container">
+        <form method="POST">
+          <label class="my-title" for="userInterests">Select a class</label>
+          <div>
+            <select name="selectClass" class="select">
+              {% for x in returnList %}
+              <option value="{{ x }}">{{x}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <input
+            formmethod="POST"
+            type="submit"
+            name="submitButton"
+            value="Find Similar"
+            class="button"
+          />
+        </form>
+      </section>
+      <section class="flex-container container">
+        <div class="block">
+          <form method="POST">
+            <label class="my-title" for="userInterests"
+              >Or tell us about your interests</label
+            >
+            <input
+              class="input is-medium is-focused"
+              type="text"
+              id="userInputDescription"
+              name="userInputDescription"
+              placeholder="Type your interests"
+            /><br />
+            <input
+              formmethod="POST"
+              type="submit"
+              name="submitButton"
+              value="Submit User Description"
+              class="button"
+            />
+          </form>
+        </div>
+      </section>
+      <section class="flex-container container">
+        <div class="block">
+          <form method="POST">
+            <label class="my-title" for="userInterests"
+              >We can also recommend a Major</label
+            >
+            <input
+              class="input is-medium is-focused"
+              type="text"
+              id="userInput1"
+              name="userInputMajor"
+              placeholder="Type your interests"
+            /><br />
+            <input
+              formmethod="POST"
+              type="submit"
+              value="Find a Major"
+              class="button button"
+            />
+          </form>
+        </div>
+      </section>
     </div>
-    <input
-      formmethod="POST"
-      type="submit"
-      name="submitButton"
-      value="Find Similar"
-      class="button"
-    />
-  </form>
-</section>
-<section class="flex-container container">
-  <div class="block">
-    <form method="POST">
-      <label class="my-title" for="userInterests"
-        >Or tell us about your interests</label
-      ><br /><h1>HelloWorld</h1>
-      <input
-        class="input is-medium is-focused"
-        type="text"
-        id="userInputDescription"
-        name="userInputDescription"
-        value="submitUserDescription"
-        placeholder="Type your interests"
-      /><br />
-      <input formmethod="POST" type="submit" name="submitButton" value="Submit User Description" class="button" />
-    </form>
+    <div class="column auto">
+      {%if containsData == "dropdown" %}
+      <div id="results-menu" class="box block">
+        <h1>Results</h1>
+        <div class="tags">
+          {% for x in recommendedClasses %}
+          <span class="tag is-large is-info"
+            >{{x['course_dept'] + " " + x['course_number'] + " " +
+            x['course_title']}}</span
+          >
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <div class="column auto"></div>
   </div>
-</section>
-<section class="flex-container container">
-  <div class="block">
-    <form method="POST">
-      <label class="my-title" for="userInterests"
-        >We can also recommend a Major</label
-      ><br />
-      <input
-        class="input is-medium is-focused"
-        type="text"
-        id="userInput1"
-        name="userInputMajor"
-        placeholder="Type your interests"
-      /><br />
-      <input
-        formmethod="POST"
-        type="submit"
-        value="Find a Major"
-        class="button button"
-      />
-    </form>
-  </div>
-</section>
+</main>
+
 {% endblock %}
