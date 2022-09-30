@@ -1,11 +1,8 @@
 {% extends "base.html" %} {% block title %} Home Page {% endblock %} {% block
 content %}
 
-<h1 class="title is-1 is-centered">Find Courses That Fit Your Lifestyle</h1>
-<section class="container">
-  <img class="image landing-image" src="/static/images/clumsy.svg" />
-</section>
-<section class="container">
+<main class="index-body">
+  <h1 class="title is-1 is-centered">Find Courses That Fit Your Lifestyle</h1>
   <form method="POST">
     <input
       class="button is-danger is-large"
@@ -13,6 +10,5 @@ content %}
       value="Find Courses"
     />
   </form>
-</section>
-
+</main>
 {% endblock %}

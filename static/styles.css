@@ -1,20 +1,24 @@
 main {
-  margin: 150px;
-}
-body {
-  background-image: url('/static/images/wingsgray.jpg');
   font-family: Montserrat, sans-serif;
 }
-section {
-  padding-bottom: 15px;
+.index-body {
+  background-image: url('/static/images/usi.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  height: 800px;
+  width: 100%;
 }
+.find-body {
+  background-image: url('/static/images/wingsgray.jpg');
+}
+/* section {
+  padding-bottom: 15px;
+} */
 select {
   padding: 4px;
   font-size: 16px;
   border-radius: 5px;
-}
-.body-content {
-  padding: 40px;
 }
 .landing-image {
   width: 50%;
@@ -41,10 +45,20 @@ label {
   text-align: center;
   font-family: Montserrat, sans-serif;
   font-size: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-container > form {
+  width: auto;
+  height: auto;
 }
 .my-title {
   color: white;
   display: block;
+}
+.results-menu {
+  width: 30%;
 }
 ul {
   list-style-type: none;
@@ -75,4 +89,10 @@ li a:hover:not(.active) {
 li a.active {
   color: white;
   background-color: #002856;
+}
+#results-menu {
+  float: left;
+}
+.column {
+  border: 1px solid red;
 }
