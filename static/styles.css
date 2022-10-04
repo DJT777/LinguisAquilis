@@ -10,11 +10,10 @@ main {
   width: 100%;
 }
 .find-body {
+  padding-top: 2px;
   background-image: url('/static/images/wingsgray.jpg');
+  height: 100%;
 }
-/* section {
-  padding-bottom: 15px;
-} */
 select {
   padding: 4px;
   font-size: 16px;
@@ -58,7 +57,7 @@ label {
   display: block;
 }
 .results-menu {
-  width: 30%;
+  width: fit-content;
 }
 ul {
   list-style-type: none;
@@ -95,4 +94,7 @@ li a.active {
 }
 .column {
   border: 1px solid red;
+}
+.nav-bar {
+  height: max-content;
 }

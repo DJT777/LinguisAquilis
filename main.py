@@ -81,20 +81,18 @@ def filter_course(course):
 
 @app.route("/findcourses", methods=['GET', 'POST', "PUT"])
 def findcourses():
+    dropdown_list = []
+    for x in class_data:
+            if x['course_title'] not in dropdown_list:
+                    dropdown_list.append(x['course_title'].strip())
     if request.method == "GET":
-        class_data_copy = []
         #filteredData = filter(filter_course, class_data_copy)
-
-        for x in class_data:
-            if x['course_title'] not in class_data_copy:
-                    class_data_copy.append(x['course_title'].strip())
-        return render_template('findcourses.html', mymethod="GET", returnList=class_data_copy, containsData=False)
+        return render_template('findcourses.html', mymethod="GET",dropdownList=dropdown_list,
+                            recommendedClasses =dropdown_list, containsData="False")
     if request.method == "POST":
             if request.form['submitButton'] == "Submit User Description":
-                # get form data
-                data = []
                 user_description = request.form['userInputDescription']
-                print("User Description:" +user_description)
+                print("User Description: " + user_description)
                 user_description_embedding = create_embeddings(user_description)
                 p = hnswlib.Index(space='cosine', dim=512)
                 p.load_index("./notebooks/index.bin")
@@ -103,10 +101,11 @@ def findcourses():
                 recommendations_user_text = []
                 for index in labels_to_return:
                     recommendations_user_text.append(class_data[index])
-                    print(class_data[index])
-                print(labels_to_return)
-                print(recommendations_user_text)
-                return render_template('findcourses.html', returnList=recommendations_user_text, containsData=True)
+                    print(class_data[index]['course_title'])
+                # print(labels_to_return)
+                # print(recommendations_user_text)
+                return render_template('findcourses.html',dropdownList=dropdown_list,
+                                        recommendedClasses=recommendations_user_text, containsData="True")
             if request.form['submitButton'] == "Find Similar":
                 print("SELECTED CLASS:" + request.form['selectClass'])
                 selectedClass = request.form['selectClass']
@@ -119,8 +118,22 @@ def findcourses():
                 for index in labels_to_return:
                     recommendations_user_text.append(class_data[index])
                     print(class_data[index])
-                return render_template("findcourses.html", containsData="dropdown", selectedClass = selectedClass, recommendedClasses = recommendations_user_text)
-
+                return render_template("findcourses.html", dropdownList=dropdown_list,
+                                        recommendedClasses = recommendations_user_text, containsData="True")
+            if request.form['submitButton'] == "Find a Major":
+                print("MAJOR INTERESTS:" + request.form['userInputMajor'])
+                selectedClass = request.form['userInputMajor']
+                selectedClassEmbedding = create_embeddings(selectedClass)
+                p = hnswlib.Index(space='cosine', dim=512)
+                p.load_index("./notebooks/index.bin")
+                labels, distances = p.knn_query(selectedClassEmbedding, k=5)
+                labels_to_return = labels[0]
+                recommendations_user_text = []
+                for index in labels_to_return:
+                    recommendations_user_text.append(class_data[index])
+                    # print(class_data[index])
+                return render_template("findcourses.html", dropdownList=dropdown_list, 
+                                        recommendedClasses = recommendations_user_text, containsData = "True")
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
