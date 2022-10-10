@@ -2,14 +2,14 @@
 content %}
 <main class="find-body">
   <div class="columns">
-    <div class="column auto"></div>
-    <div class="column is-8">
+    <div class="column is-1"></div>
+    <div class="column auto">
       <section class="flex-container container">
         <form method="POST">
           <label class="my-title" for="userInterests">Select a class</label>
           <div>
             <select name="selectClass" class="select">
-              {% for x in returnList %}
+              {% for x in dropdownList %}
               <option value="{{ x }}">{{x}}</option>
               {% endfor %}
             </select>
@@ -35,6 +35,7 @@ content %}
               id="userInputDescription"
               name="userInputDescription"
               placeholder="Type your interests"
+              required
             /><br />
             <input
               formmethod="POST"
@@ -55,22 +56,24 @@ content %}
             <input
               class="input is-medium is-focused"
               type="text"
-              id="userInput1"
+              id="userInputMajor"
               name="userInputMajor"
               placeholder="Type your interests"
+              required
             /><br />
             <input
               formmethod="POST"
+              name="submitButton"
               type="submit"
               value="Find a Major"
-              class="button button"
+              class="button"
             />
           </form>
         </div>
       </section>
     </div>
     <div class="column auto">
-      {%if containsData == "dropdown" %}
+      {%if containsData == "True" %}
       <div id="results-menu" class="box block">
         <h1>Results</h1>
         <div class="tags">
@@ -84,7 +87,7 @@ content %}
       </div>
       {% endif %}
     </div>
-    <div class="column auto"></div>
+    <div class="column is-1"></div>
   </div>
 </main>
 
