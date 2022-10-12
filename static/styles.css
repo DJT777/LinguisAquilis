@@ -8,22 +8,49 @@ main {
   background-position: center;
   height: 800px;
   width: 100%;
+  margin-top: 10px;
 }
 .find-body {
-  padding-top: 2px;
   background-image: url('/static/images/wingsgray.jpg');
   height: 100%;
+}
+.main-section {
+  margin-bottom: 1%;
+}
+.level {
+  margin-top: 2%;
+}
+.index-heading {
+  color: aliceblue;
+  text-align: center;
 }
 select {
   padding: 4px;
   font-size: 16px;
   border-radius: 5px;
 }
+i {
+  margin-right: 8px;
+}
 .landing-image {
   width: 50%;
   align-self: center;
 }
-
+.is-centered {
+  text-align: center;
+}
+.level-icon {
+  font-size: 40px;
+  margin-right: 15px;
+  color: #002856;
+}
+.quick-rec {
+  color: #002856;
+}
+.quick-rec:hover {
+  background-color: #002856;
+  color: white;
+}
 input[type='text'] {
   padding: 1px 10px;
   font-size: 8px;
@@ -39,7 +66,6 @@ label {
   color: white;
   text-align: center;
 }
-
 .flex-container {
   text-align: center;
   font-family: Montserrat, sans-serif;
@@ -61,13 +87,14 @@ label {
 }
 ul {
   list-style-type: none;
-  margin: 0;
-  padding: 0;
+  padding-left: 10px;
   overflow: hidden;
   border: 1px solid #002856;
   background-color: #002856;
 }
-
+.is-link {
+  background-color: #002856;
+}
 li {
   float: left;
 }
@@ -93,7 +120,7 @@ li a.active {
   float: left;
 }
 .column {
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 .nav-bar {
   height: max-content;

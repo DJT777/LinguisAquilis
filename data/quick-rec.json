@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Computer Science",
+    "query": "Computer Science Programing",
+    "icon": "Computer Science",
+    "color": "Computer Science",
+    "class": "fa-solid fa-computer"
+  },
+  {
+    "name": "Accounting",
+    "query": "Accounting Mathematics Business",
+    "icon": "",
+    "color": "",
+    "class": "fa-solid fa-receipt"
+  },
+  {
+    "name": "Data Analytics",
+    "query": "Mathematics Analytics Statistics",
+    "icon": "",
+    "color": "",
+    "class": "fa-solid fa-chart-simple"
+  },
+  {
+    "name": "Business",
+    "query": "Business Economics Global Management",
+    "icon": "",
+    "color": "",
+    "class": "fa-solid fa-briefcase"
+  },
+  {
+    "name": "Education",
+    "query": "Teaching Languages",
+    "icon": "",
+    "color": "",
+    "class": "fa-solid fa-school"
+  }
+]
