@@ -132,14 +132,15 @@ def findcourses():
                 recommended_majors = []
                 for index in labels_to_return:
                     recommendations_user_text.append(class_data[index])
-                    recommended_majors.append(class_data[index]['course_dept'])
+                    if class_data[index]['course_dept'] not in recommended_majors:
+                        recommended_majors.append(class_data[index]['course_dept'])
                     print(class_data[index])
                 print(recommended_majors)
                 recommended_major = max(recommended_majors)
                 return_recommendation = []
                 return_recommendation.append(recommended_major)
                 return render_template("findcourses.html", dropdownList=dropdown_list,
-                                        recommendedClasses = return_recommendation, containsData="False", containsDataMajor="True")
+                                        recommendedClasses = recommended_majors, containsData="False", containsDataMajor="True")
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
