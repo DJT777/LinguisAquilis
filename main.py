@@ -84,7 +84,7 @@ def findcourses():
     dropdown_list = []
     for x in class_data:
             if x['course_title'] not in dropdown_list:
-                    dropdown_list.append(x['course_title'].strip())
+                    dropdown_list.append(x['course_dept'].strip() + " " + x['course_number'].strip() +" " + x['course_title'].strip())
     if request.method == "GET":
         #filteredData = filter(filter_course, class_data_copy)
         return render_template('findcourses.html', mymethod="GET",dropdownList=dropdown_list,
