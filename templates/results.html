@@ -5,7 +5,7 @@ block content %}
 {% for x in returnList %}
 <div class="tags are-large">
   <span class="tag is-primary"
-    >{{x['course_dept'] + x['course_number'] + x['course_title']}}</span
+    >{{x['course_dept'] + x['course_number'] + " " + x['course_title']}}</span
   >
 </div>
 {% endfor %} {% endblock %}}

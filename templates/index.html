@@ -1,14 +1,113 @@
 {% extends "base.html" %} {% block title %} Home Page {% endblock %} {% block
 content %}
-
-<main class="index-body">
-  <h1 class="title is-1 is-centered">Find Courses That Fit Your Lifestyle</h1>
-  <form method="POST">
-    <input
-      class="button is-danger is-large"
-      type="submit"
-      value="Find Courses"
-    />
-  </form>
+<main>
+  <section class="main-section index-body">
+    <div class="columns">
+      <div class="column is-half is-offset-one-quarter is-centered is-center">
+        <h1 class="index-heading title is-1 is-centered">
+          Find Courses That Fit Your Lifestyle
+        </h1>
+        <form method="POST">
+          <input
+            class="button is-danger is-large"
+            type="submit"
+            value="Find Courses"
+          />
+        </form>
+      </div>
+    </div>
+  </section>
+  <section class="main-section">
+    <div class="columns">
+      <div class="column is-full">
+        <section class="hero is-large is-link">
+          <div class="hero-body">
+            <p class="title">Find Quick Recommendations</p>
+            <p class="subtitle">I want to learn...</p>
+            <div class="quick">
+              <form method="post">
+                {% for x in quickRec %}
+                <button
+                  name="{{x['query']}}"
+                  value="{{x['name']}}"
+                  class="quick-rec is-responsive button is-outlined is-rounded"
+                >
+                  <i class="{{x['class']}}"></i>
+                  {{x['name']}}
+                </button>
+                {% endfor %}
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+  <section class="main-section">
+    <div class="column is-half is-offset-one-quarter is-centered is-center">
+      <h1 class="title is-1 is-centered">We have it all</h1>
+    </div>
+    <nav class="level">
+      <div class="level-item has-text-centered">
+        <i class="level-icon fa-solid fa-book"></i>
+        <div>
+          <p class="heading">Courses</p>
+          <p class="title">56+</p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <i class="level-icon fa-solid fa-building-columns"></i>
+        <div>
+          <p class="heading">Colleges</p>
+          <p class="title">6+</p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <i class="level-icon fa-solid fa-graduation-cap"></i>
+        <div>
+          <p class="heading">Majors</p>
+          <p class="title">81+</p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <i class="level-icon fa-solid fa-user-graduate"></i>
+        <div>
+          <p class="heading">Students</p>
+          <p class="title">1789</p>
+        </div>
+      </div>
+    </nav>
+  </section>
+  <section class="section main">
+    <div class="tile is-ancesor">
+      <div class="tile is-vertical-is-4">
+        <div class="tile">
+          <article class="tile is-child notification is-link">
+            <p class="title">Did not find what you were looking for?</p>
+            <p class="subtitle">Check Out the Bulletin</p>
+            <a href="http://usi.edu">
+              <button class="button is-medium is-responsive">
+                <i class="fa-solid fa-square-up-right"></i>
+                Bulletin
+              </button>
+            </a>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>LinguisAquilis </strong> by
+        <a href="https://jgthms.com">Yosep Almanza</a> and
+        <a href="http://opensource.org/licenses/mit-license.php">Dylan Tulsey</a
+        >. The website content is licensed
+        <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+          >CC BY NC SA 4.0</a
+        >.
+      </p>
+    </div>
+  </footer>
 </main>
 {% endblock %}

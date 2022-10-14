@@ -1,2 +1,7 @@
 .venv/
 __pycache__/
+.vscode/
+helloworld.html
+results.html
+pdfminer/
+app.txt
