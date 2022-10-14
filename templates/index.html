@@ -1,18 +1,24 @@
 {% extends "base.html" %} {% block title %} Home Page {% endblock %} {% block
 content %}
 <main>
-  <section class="main-section index-body">
+  <section class="index-body">
     <div class="columns">
-      <div class="column is-half is-offset-one-quarter is-centered is-center">
+      <div
+        class="index-heading column is-half is-offset-one-quarter is-centered is-center"
+      >
         <h1 class="index-heading title is-1 is-centered">
           Find Courses That Fit Your Lifestyle
         </h1>
         <form method="POST">
-          <input
-            class="button is-danger is-large"
+          <button
             type="submit"
+            name="submitButton"
             value="Find Courses"
-          />
+            class="button is-danger is-large"
+          >
+            <i class="fa-solid fa-graduation-cap"></i>
+            Find Courses
+          </button>
         </form>
       </div>
     </div>
@@ -96,18 +102,5 @@ content %}
       </div>
     </div>
   </section>
-  <footer class="footer">
-    <div class="content has-text-centered">
-      <p>
-        <strong>LinguisAquilis </strong> by
-        <a href="https://jgthms.com">Yosep Almanza</a> and
-        <a href="http://opensource.org/licenses/mit-license.php">Dylan Tulsey</a
-        >. The website content is licensed
-        <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
-          >CC BY NC SA 4.0</a
-        >.
-      </p>
-    </div>
-  </footer>
 </main>
 {% endblock %}
