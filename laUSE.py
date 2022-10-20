@@ -36,15 +36,14 @@ class Recommendation:
         self.userQueryEmbedding = userQueryEmbedding
         self.userQueryLabels = userQueryLabels
         self.queryDistances = userQueryDistances
-        self.registrarData = None
-        recommendations_user_text = []
+        self.recommendations_user_text = []
         labels_to_return = userQueryLabels[0]
         for index in labels_to_return:
-            recommendations_user_text.append(self.class_data[index])
+            self.recommendations_user_text.append(self.class_data[index])
             print(self.class_data[index]['course_title'])
 
-        self.helloWorld = "Hello World"
-        print(self.helloWorld)
+        #self.helloWorld = "Hello World"
+        #print(self.helloWorld)
 
 
 
@@ -116,11 +115,11 @@ class useLite:
 
     def query_embedding(self, user_description_embedding, user_description_string):
         labels, distances = self.p.knn_query(user_description_embedding, k=5)
-        print(labels)
+        #print(labels)
         recommendation = Recommendation(user_description_string, user_description_embedding, labels, distances)
         print(recommendation.userQueryString)
 
-        return labels, distances
+        return recommendation
 
 
     def __init__(self):
@@ -140,7 +139,6 @@ print(p1.name)
 #print(embedding)
 print("Alhamdullilah")
 print("Your results for your search of " + sampleQuery + " returned these results...")
-labels, distances = p1.query_embedding(embedding, sampleQuery)
-print("Recommendation Returned: ")
-print(labels)
+sampleRecommendation = p1.query_embedding(embedding, sampleQuery)
+
 
