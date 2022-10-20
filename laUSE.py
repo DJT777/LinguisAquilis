@@ -38,6 +38,7 @@ class Recommendation:
         self.queryDistances = userQueryDistances
         self.recommendations_user_text = []
         labels_to_return = userQueryLabels[0]
+        print("Your results for your search of " + self.userQueryString + " returned these results...")
         for index in labels_to_return:
             self.recommendations_user_text.append(self.class_data[index])
             print(self.class_data[index]['course_title'])
@@ -132,13 +133,5 @@ class useLite:
         #print("A sample embedding")
         #print(self.sampleEmbedding)
 
-p1 = useLite()
-sampleQuery = "AFRC 311 Africana Studies Perspectives"
-embedding = p1.create_embeddings(sampleQuery)
-print(p1.name)
-#print(embedding)
-print("Alhamdullilah")
-print("Your results for your search of " + sampleQuery + " returned these results...")
-sampleRecommendation = p1.query_embedding(embedding, sampleQuery)
 
 
