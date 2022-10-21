@@ -14,6 +14,7 @@ import hnswlib
 import json
 import sentencepiece
 
+
 #Path to create recommendation class halted because inner classes cannot inherit outer classes
 #thus making it impossible to inherit the create embedding method/function from the outer class
 class Recommendation:
@@ -129,7 +130,7 @@ class useLite:
         self.class_data = json.load(self.class_json)
         self.p = hnswlib.Index(space='cosine', dim=512)
         self.p.load_index("./notebooks/index.bin")
-        print(self.name)
+        #print(self.name)
         #print("A sample embedding")
         #print(self.sampleEmbedding)
 
