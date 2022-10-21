@@ -15,9 +15,44 @@ import json
 import sentencepiece
 
 
+#Path to create recommendation class halted because inner classes cannot inherit outer classes
+#thus making it impossible to inherit the create embedding method/function from the outer class
+class Recommendation:
+    def __init__(self):
+        self.query = None
+        self.queryLabels = None
+        self.registrarData = None
+        self.helloWorld = "Hello World"
+        print(self.helloWorld)
+
+
+    #Constructor Pass in a query and the labels returned by useLite's create_embedding() and query_embedding() functions
+    def __init__(self, userQueryString, userQueryEmbedding, userQueryLabels, userQueryDistances):
+        self.user = None
+        self.class_json = open('data.json')
+        self.class_data = json.load(self.class_json)
+        self.p = hnswlib.Index(space='cosine', dim=512)
+        self.p.load_index("./notebooks/index.bin")
+        self.userQueryString = userQueryString
+        self.userQueryEmbedding = userQueryEmbedding
+        self.userQueryLabels = userQueryLabels
+        self.queryDistances = userQueryDistances
+        self.recommendations_user_text = []
+        labels_to_return = userQueryLabels[0]
+        print("Your results for your search of " + self.userQueryString + " returned these results...")
+        for index in labels_to_return:
+            self.recommendations_user_text.append(self.class_data[index])
+            print(self.class_data[index]['course_title'])
+
+        #self.helloWorld = "Hello World"
+        #print(self.helloWorld)
+
+
 
 class useLite:
     name = "Hello World"
+
+
 
 
     def filter_course(course):
@@ -80,15 +115,24 @@ class useLite:
             #        (str(x) for x in message_embedding[:3]))
             #    print("Embedding: [{}, ...]\n".format(message_embedding_snippet))
 
+    def query_embedding(self, user_description_embedding, user_description_string):
+        labels, distances = self.p.knn_query(user_description_embedding, k=5)
+        #print(labels)
+        recommendation = Recommendation(user_description_string, user_description_embedding, labels, distances)
+        print(recommendation.userQueryString)
+
+        return recommendation
+
+
     def __init__(self):
+        self.name = "Muhammad"
         self.class_json = open('data.json')
         self.class_data = json.load(self.class_json)
-        self.name = "Muhammad"
-        print(self.name)
+        self.p = hnswlib.Index(space='cosine', dim=512)
+        self.p.load_index("./notebooks/index.bin")
+        #print(self.name)
+        #print("A sample embedding")
+        #print(self.sampleEmbedding)
 
 
-p1 = useLite()
-embedding = p1.create_embeddings("AFRC 311 Africana Studies Perspectives")
-print(p1.name)
-print(embedding)
-print("Alhamdullilah")
+
