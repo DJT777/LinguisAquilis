@@ -51,10 +51,6 @@ class Recommendation:
 
 class useLite:
     name = "Hello World"
-
-
-
-
     def filter_course(course):
         if (course not in class_data):
             return True
