@@ -93,54 +93,29 @@ def findcourses():
             if request.form['submitButton'] == "Submit User Description":
                 user_description = request.form['userInputDescription']
                 print("User Description: " + user_description)
-                user_description_embedding = create_embeddings(user_description)
-                p = hnswlib.Index(space='cosine', dim=512)
-                p.load_index("./notebooks/index.bin")
-                labels, distances = p.knn_query(user_description_embedding, k=5)
-                labels_to_return = labels[0]
-                recommendations_user_text = []
-                for index in labels_to_return:
-                    recommendations_user_text.append(class_data[index])
-                    print(class_data[index]['course_title'])
+                user_description_embedding = p1.create_embeddings(user_description)
+                recommendation = p1.query_embedding(user_description_embedding, user_description)
                 # print(labels_to_return)
                 # print(recommendations_user_text)
                 return render_template('findcourses.html',dropdownList=dropdown_list,
-                                        recommendedClasses=recommendations_user_text, containsData="True", containsDataMajor="False")
+                                        recommendedClasses=recommendation.recommendations_user_text, containsData="True", containsDataMajor="False")
             if request.form['submitButton'] == "Find Similar":
                 print("SELECTED CLASS:" + request.form['selectClass'])
                 selectedClass = request.form['selectClass']
-                selectedClassEmbedding = create_embeddings(selectedClass)
-                p = hnswlib.Index(space='cosine', dim=512)
-                p.load_index("./notebooks/index.bin")
-                labels, distances = p.knn_query(selectedClassEmbedding, k=5)
-                labels_to_return = labels[0]
-                recommendations_user_text = []
-                for index in labels_to_return:
-                    recommendations_user_text.append(class_data[index])
-                    print(class_data[index])
+                selectedClassEmbedding = p1.create_embeddings(selectedClass)
+                recommendation = p1.query_embedding(selectedClassEmbedding, selectedClass)
+
                 return render_template("findcourses.html", dropdownList=dropdown_list,
-                                        recommendedClasses = recommendations_user_text, containsData="True", containsDataMajor="False")
+                                        recommendedClasses = recommendation.recommendations_user_text, containsData="True", containsDataMajor="False")
             if request.form['submitButton'] == "Find a Major":
                 print("MAJOR INTERESTS:" + request.form['userInputMajor'])
                 majorDescription = request.form['userInputMajor']
-                selectedMajorEmbedding = create_embeddings(majorDescription)
-                p = hnswlib.Index(space='cosine', dim=512)
-                p.load_index("./notebooks/index.bin")
-                labels, distances = p.knn_query(selectedMajorEmbedding, k=5)
-                labels_to_return = labels[0]
-                recommendations_user_text = []
-                recommended_majors = []
-                for index in labels_to_return:
-                    recommendations_user_text.append(class_data[index])
-                    if class_data[index]['course_dept'] not in recommended_majors:
-                        recommended_majors.append(class_data[index]['course_dept'])
-                    print(class_data[index])
-                print(recommended_majors)
-                recommended_major = max(recommended_majors)
+                selectedMajorEmbedding = p1.create_embeddings(majorDescription)
+                recommendation = p1.query_embedding(selectedMajorEmbedding, majorDescription)
                 return_recommendation = []
-                return_recommendation.append(recommended_major)
+                return_recommendation.append(recommendation.recommended_major)
                 return render_template("findcourses.html", dropdownList=dropdown_list,
-                                        recommendedClasses = recommended_majors, containsData="False", containsDataMajor="True")
+                                        recommendedClasses =return_recommendation, containsData="False", containsDataMajor="True")
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -170,11 +145,7 @@ def index():
         return '<h1>Hello Default</h1>'
 
 if __name__ == '__main__':
-
-    p = hnswlib.Index(space='cosine', dim=512)
-    p.load_index("./notebooks/index.bin")
-   # print(class_data[0])
-
+    p1 = aq.useLite()
     app.run(debug=True)
 
 def embed(input):
