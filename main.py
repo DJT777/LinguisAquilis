@@ -13,6 +13,7 @@ import seaborn as sns
 import hnswlib
 import json
 import sentencepiece
+import laUSE as aq
 
 app = Flask(__name__)
 class_json = open('data.json')
@@ -144,7 +145,7 @@ def findcourses():
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == "GET":
-        index_course_list = open('data\quick-rec.json')
+        index_course_list = open('data/quick-rec.json')
         index_course_list = json.load(index_course_list)
         return render_template('index.html', quickRec = index_course_list)
     if request.method == "POST":
