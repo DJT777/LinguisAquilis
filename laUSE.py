@@ -38,12 +38,15 @@ class Recommendation:
         self.userQueryLabels = userQueryLabels
         self.queryDistances = userQueryDistances
         self.recommendations_user_text = []
+        self.recommended_majors = []
         labels_to_return = userQueryLabels[0]
         print("Your results for your search of " + self.userQueryString + " returned these results...")
         for index in labels_to_return:
             self.recommendations_user_text.append(self.class_data[index])
             print(self.class_data[index]['course_title'])
-
+            if self.class_data[index]['course_dept'] not in self.recommended_majors:
+                self.recommended_majors.append(self.class_data[index]['course_dept'])
+        self.recommended_major = max(self.recommended_majors)
         #self.helloWorld = "Hello World"
         #print(self.helloWorld)
 
