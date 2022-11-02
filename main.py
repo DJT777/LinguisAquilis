@@ -62,13 +62,15 @@ def findcourses():
                 return render_template("findcourses.html", dropdownList=dropdown_list,
                                         recommendedClasses =return_recommendation, containsData="False", containsDataMajor="True")
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST', 'PUT'])
 def index():
     if request.method == "GET":
         index_course_list = open('data/quick-rec.json')
         index_course_list = json.load(index_course_list)
         return render_template('index.html', quickRec = index_course_list)
     if request.method == "POST":
+        if request.form["submitButton"] == "Find Courses":
+            return redirect(url_for("findcourses")) 
         print("Request.Form: ")
         # output = request.form.getlist('name[]')
         output = request.form.to_dict(flat=False)
