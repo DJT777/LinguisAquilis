@@ -128,3 +128,7 @@ li a.active {
 .nav-bar {
   height: max-content;
 }
+.icon {
+  font-size: 10px;
+  color: black;
+}

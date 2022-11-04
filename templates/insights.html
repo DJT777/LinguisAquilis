@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"
+      integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://kit.fontawesome.com/42e7bd55fd.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css')}}"
+    />
+    <link rel="styles.css" href="/static/styles.css" />
+  </head>
+  <body>
+    <main>
+      <section class="section">
+        <div class="columns is-mobile is-centered">
+          <div class="column is-half">
+            <h1 class="title is-4">LinguisAquilis Insights</h1>
+            <p class="subtitle is-5">Lorem ipsum dolor sit amet consectetur.</p>
+          </div>
+        </div>
+      </section>
+      <section class="hero is-small is-info">
+        <div class="hero-body">
+          <p class="title">Explore Insights</p>
+          <p class="subtitle">
+            This Portal Includes Insights on popular course options and more.
+          </p>
+        </div>
+      </section>
+      <section class="section card-section">
+        <div class="columns">
+          <div class="column is-4">
+            <div class="card">
+              <div class="card-content">
+                <p class="title">Anth 101 Introduction to Anthropoplogy</p>
+                <p class="subtitle">Is the most popular course among users.</p>
+              </div>
+              <footer class="card-footer">
+                <p class="card-footer-item">
+                  <span>
+                    View on
+                    <a
+                      href="https://twitter.com/codinghorror/status/506010907021828096"
+                      >Twitter</a
+                    >
+                  </span>
+                </p>
+                <p class="card-footer-item">
+                  <span> Share on <a href="#">Facebook</a> </span>
+                </p>
+              </footer>
+            </div>
+          </div>
+          <div class="column is-4">
+            <div class="box">
+              <h1 class="title is-3">Top 5 Courses</h1>
+              <p class="subtitle is-5">Lorem ipsum dolor sit.</p>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Number</th>
+                    <th>Course</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Anth</td>
+                    <td>100</td>
+                    <td>Anthropoplogy</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>Code</th>
+                    <th>Number</th>
+                    <th>Course</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <div class="column is-4">
+            <div class="class is-parent">
+              <div class="title is-child notification is-info">
+                <div class="content">
+                  <h1 class="title">Computer Science</h1>
+                  <p class="subtitle">Top recommended major.</p>
+                  <div class="content"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section card-section">
+        <div class="columns">
+          <div class="column is-5">
+            <article class="tile is-child notification is-danger">
+              <span><i class="fa-solid fa-city icon"></i></span>
+              <p class="title">Evansville, Indiana</p>
+              <p class="subtitle">100% of users live here.</p>
+              <div class="content">
+                <!-- Content -->
+              </div>
+            </article>
+          </div>
+          <div class="column is-3">
+            <article class="tile is-child notification is-warning">
+              <span><i class="icon fa-solid fa-flag-usa"></i></span>
+              <p class="title">Indiana</p>
+              <p class="subtitle">Most users live in Indiana</p>
+            </article>
+          </div>
+          <div class="column is-4">
+            <article class="tile is-child notification is-primary">
+              <p class="title">47711...</p>
+              <p class="subtitle">Top ZIP code from our users</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
