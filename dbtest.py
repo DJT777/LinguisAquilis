@@ -21,9 +21,9 @@ mylist = [
 ]
 
 sampleCourse =     {
-        "course_dept": "REST",
-        "course_number": "325",
-        "course_title": "Advanced Pulmonary Diseases"
+        "course_dept": "ACT",
+        "course_number": "415",
+        "course_title": "Auditing Theory and Practice"
 }
 
 myDb.path = './data/sql.db'
@@ -36,3 +36,8 @@ myDb.courseExists(sampleCourse, 'classlist')
 # myDb.courseExists(sampleCourse, 'classlist')
 # myDb.courseExists(sampleCourse, 'classlist')
 myDb.getTopCourses('classlist')
+
+
+myDb.createTable('selectClass')
+myDb.createTable('describeClass')
+myDb.createTable('describeMajor')
