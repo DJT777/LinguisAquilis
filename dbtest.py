@@ -21,6 +21,7 @@ from visitor import Visitor
 #     }
 # ]
 
+
 # sampleCourse =     {
 #         "course_dept": "REST",
 #         "course_number": "325",
@@ -35,9 +36,11 @@ myDb.path = './data/sql.db'
 # myDb.insertClass(mylist, 'classlist')
 # # myDb.closeConnection()
 # myDb.courseExists(sampleCourse, 'classlist')
+
 # # myDb.courseExists(sampleCourse, 'classlist')
 # # myDb.courseExists(sampleCourse, 'classlist')
 # myDb.getTopCourses('classlist')
 
 visitor = Visitor(myDb)
 myDb.getVisitorInfo('Visitors')
+

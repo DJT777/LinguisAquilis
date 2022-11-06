@@ -14,6 +14,7 @@ import hnswlib
 import json
 import sentencepiece
 import laUSE as aq
+from  database import  database
 
 app = Flask(__name__)
 class_json = open('data.json')
@@ -42,6 +43,9 @@ def findcourses():
                 print("User Description: " + user_description)
                 user_description_embedding = p1.create_embeddings(user_description)
                 recommendation = p1.query_embedding(user_description_embedding, user_description)
+                myDb.insertClass(recommendation.recommendations_user_text, 'describeClass')
+                # for recommended_class in recommendation.recommendations_user_text:
+                #    myDb.courseExists(recommended_class, 'classlist')
                 return render_template('findcourses.html',dropdownList=dropdown_list,
                                         recommendedClasses=recommendation.recommendations_user_text, containsData="True", containsDataMajor="False")
             if request.form['submitButton'] == "Find Similar":
@@ -49,7 +53,9 @@ def findcourses():
                 selectedClass = request.form['selectClass']
                 selectedClassEmbedding = p1.create_embeddings(selectedClass)
                 recommendation = p1.query_embedding(selectedClassEmbedding, selectedClass)
-
+                myDb.insertClass(recommendation.recommendations_user_text, 'selectClass')
+                for recommended_class in recommendation.recommendations_user_text:
+                    myDb.courseExists(recommended_class, 'selectClass')
                 return render_template("findcourses.html", dropdownList=dropdown_list,
                                         recommendedClasses = recommendation.recommendations_user_text, containsData="True", containsDataMajor="False")
             if request.form['submitButton'] == "Find a Major":
@@ -57,6 +63,9 @@ def findcourses():
                 majorDescription = request.form['userInputMajor']
                 selectedMajorEmbedding = p1.create_embeddings(majorDescription)
                 recommendation = p1.query_embedding(selectedMajorEmbedding, majorDescription)
+                myDb.insertClass(recommendation.recommendations_user_text, 'describeMajor')
+                # for recommended_class in recommendation.recommendations_user_text:
+                #    myDb.courseExists(recommended_class, 'classlist')
                 return_recommendation = []
                 return_recommendation.append(recommendation.recommended_major)
                 return render_template("findcourses.html", dropdownList=dropdown_list,
@@ -93,6 +102,12 @@ def index():
 
 if __name__ == '__main__':
     p1 = aq.useLite()
+    myDb = database()
+    myDb.path = './data/sql.db'
+    myDb.createTable('selectClass')
+    myDb.createTable('describeClass')
+    myDb.createTable('describeMajor')
+
     app.run(debug=True)
 
 def embed(input):
