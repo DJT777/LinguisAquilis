@@ -4,3 +4,4 @@ __pycache__/
 helloworld.html
 pdfminer/
 app.txt
+data/sql.db
