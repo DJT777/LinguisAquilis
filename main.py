@@ -54,8 +54,8 @@ def findcourses():
                 selectedClassEmbedding = p1.create_embeddings(selectedClass)
                 recommendation = p1.query_embedding(selectedClassEmbedding, selectedClass)
                 myDb.insertClass(recommendation.recommendations_user_text, 'selectClass')
-                #for recommended_class in recommendation.recommendations_user_text:
-                #    myDb.courseExists(recommended_class, 'classlist')
+                for recommended_class in recommendation.recommendations_user_text:
+                    myDb.courseExists(recommended_class, 'selectClass')
                 return render_template("findcourses.html", dropdownList=dropdown_list,
                                         recommendedClasses = recommendation.recommendations_user_text, containsData="True", containsDataMajor="False")
             if request.form['submitButton'] == "Find a Major":
@@ -103,10 +103,11 @@ def index():
 if __name__ == '__main__':
     p1 = aq.useLite()
     myDb = database()
+    myDb.path = './data/sql.db'
     myDb.createTable('selectClass')
     myDb.createTable('describeClass')
     myDb.createTable('describeMajor')
-    myDb.path = './data/sql.db'
+
     app.run(debug=True)
 
 def embed(input):
