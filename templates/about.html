@@ -1,5 +1,79 @@
 {% extends "base.html" %} {% block title %} {% endblock %} {% block content %}
-<section class="container">
-  <img class="image landing-image" src="/static/images/clumsy.svg" />
-</section>
+<main>
+  <section class="hero-banner container hero is-link">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">LinguisAquilis</h1>
+        <h2 class="subtitle">
+          Helping students and academic institutions since
+          <strong>2022</strong>
+        </h2>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="columns is-multiline">
+        <div class="column is-one-third">
+          <div class="box">
+            <h3 class="title is-4">For Students by Students</h3>
+            <h4 class="subtitle is-5">
+              Lorem ipsum dolor sit amet, consectetur adipisicing.
+            </h4>
+            <figure class="image is-4by3">
+              <img src="/static/images/clumsy.svg" />
+            </figure>
+          </div>
+        </div>
+        <div class="column is-one-third">
+          <div class="box">
+            <h3 class="title is-4">AI-Powered</h3>
+            <h4 class="subtitle is-5">
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+            </h4>
+            <figure class="image is-4by3">
+              <img src="/static/images/peep-61.svg" />
+            </figure>
+          </div>
+        </div>
+        <div class="column is-one-third">
+          <div class="box">
+            <h3 class="title is-4">Your Future... in Good Hands</h3>
+            <h4 class="subtitle is-5">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </h4>
+            <figure class="image is-4by3">
+              <img src="/static/images/laying.svg" />
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <section class="hero is-link">
+        <div class="hero-grid hero-body">
+          <div class="hero-grid-item">
+            <p class="title is-2">Your Academic Journey Starts Here</p>
+            <p class="subtitle">Find courses that you'll enjoy</p>
+            <a href="http://usi.edu">
+              <button class="button is-medium is-responsive">
+                <i class="fa-solid fa-square-up-right"></i>
+                Find courses
+              </button>
+            </a>
+          </div>
+          <figure class="hero-grid-item">
+            <img
+              src="/static/images/about2.jpg"
+              alt="Students At Library"
+              class="image"
+            />
+          </figure>
+        </div>
+      </section>
+    </div>
+  </section>
+</main>
 {% endblock %}

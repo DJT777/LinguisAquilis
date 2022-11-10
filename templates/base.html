@@ -30,7 +30,7 @@
       <div class="nav-bar">
         <ul>
           <li>
-            <a href="#">
+            <a href="https://www.usi.edu">
               <img
                 src="/static/images/usi-logo-horizontal.png"
                 alt=""
@@ -42,8 +42,8 @@
           <li>
             <a class="active" href="{{ url_for('index') }}">Home</a>
           </li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="#">About</a></li>
+          <li><a href="{{ url_for('contact') }}">Contact</a></li>
+          <li><a href="{{ url_for('about') }}">About</a></li>
         </ul>
       </div>
     </header>

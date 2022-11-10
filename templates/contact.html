@@ -1,0 +1,111 @@
+{% extends "base.html" %} {% block title %} {% endblock %} {% block content %}
+<main class="form-container">
+  <section class="container hero is-link">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Contact us</h1>
+        <h2 class="subtitle">
+          Our team will be back with you shortly.
+          <strong> Feedback is always welcome.</strong>
+        </h2>
+        <figure>
+          <p>
+            <span>
+              <i class="fa-solid fa-location-pin"></i>
+            </span>
+            Evansville, IN
+          </p>
+        </figure>
+        <figure>
+          <p>
+            <span>
+              <i class="fa-solid fa-envelope"></i>
+            </span>
+            sales@LinguisAquilis.com
+          </p>
+        </figure>
+        <figure>
+          <p>
+            <span>
+              <i class="fa-solid fa-phone"></i>
+            </span>
+            812-604-800
+          </p>
+        </figure>
+      </div>
+      <h2 class="subtitle is-6">
+        <strong>Our fill out this form</strong>
+      </h2>
+    </div>
+  </section>
+  <div class="form-container container">
+    <form id="form">
+      <div class="field">
+        <label for="name" class="label">Name</label>
+        <input id="name" type="text" class="input" placeholder="Enter Name" />
+      </div>
+      <div class="field">
+        <label for="email" class="label">Email</label>
+        <input
+          id="email"
+          type="email"
+          class="input"
+          placeholder="Enter Email"
+        />
+      </div>
+      <div class="field">
+        <label for="phone" class="label">Phone</label>
+        <input
+          id="phone"
+          type="phone"
+          class="input"
+          placeholder="Enter Phone"
+        />
+      </div>
+      <div class="field">
+        <label class="label">Prefered via of contact</label>
+        <div class="control">
+          <div class="select">
+            <select>
+              <option>Email</option>
+              <option>Phone</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="notes" class="label">Notes</label>
+        <div class="control">
+          <textarea
+            name="notes"
+            id="notes"
+            cols="20"
+            rows="3"
+            class="textarea"
+          ></textarea>
+        </div>
+      </div>
+    </form>
+    <div class="container">
+      <div id="notification" class="notification is-primary is-light is-hidden">
+        <button
+          id="delete-notification"
+          class="delete"
+          onclick="deletenotification()"
+        ></button>
+        Success! A sales representative will contact you shortly
+      </div>
+    </div>
+    <div class="container">
+      <div class="control field">
+        <button id="submit" class="button is-link" onclick="submitform()">
+          Submit
+        </button>
+        <button class="button is-danger" onclick="clearform('form')">
+          Clear
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
