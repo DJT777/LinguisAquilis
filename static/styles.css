@@ -54,17 +54,17 @@ i {
   background-color: #002856;
   color: white;
 }
-input[type='text'] {
+/* input[type='text'] {
   padding: 1px 10px;
   font-size: 8px;
   width: 700px;
-}
+} */
 
 /*New*/
 .button {
   margin: 10px;
 }
-label {
+.find-label {
   font-family: Montserrat, sans-serif;
   color: white;
   text-align: center;
@@ -128,7 +128,22 @@ li a.active {
 .nav-bar {
   height: max-content;
 }
-.icon {
-  font-size: 10px;
-  color: black;
+/* About Page */
+.hero-grid-item {
+  text-align: left;
+  padding: 1%;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  justify-content: space-around;
+  align-content: center;
+  height: 100%;
+}
+.hero-banner {
+  margin-top: 0.6%;
+}
+/* Form Section */
+.form-container {
+  padding-top: 1%;
 }

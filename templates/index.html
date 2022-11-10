@@ -84,6 +84,31 @@ content %}
       </div>
     </nav>
   </section>
+  <section class="section">
+    <div class="container">
+      <section class="hero is-link">
+        <div class="hero-grid hero-body">
+          <figure class="hero-grid-item">
+            <img
+              src="/static/images/about1.jpg"
+              alt="Students At Library"
+              class="image"
+            />
+          </figure>
+          <div class="hero-grid-item">
+            <p class="title is-2">Your Academic Journey Starts Here.</p>
+            <p class="subtitle">Find courses that you'll enjoy.</p>
+            <a href="{{ url_for('findcourses') }}">
+              <button class="button is-medium is-responsive">
+                <i class="fa-solid fa-square-up-right"></i>
+                Find courses
+              </button>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
   <section class="section main">
     <div class="tile is-ancesor">
       <div class="tile is-vertical-is-4">

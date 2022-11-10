@@ -100,6 +100,14 @@ def index():
         # get form data
         return '<h1>Hello Default</h1>'
 
+@app.route("/about", methods=['GET'])
+def about():
+    return render_template("about.html")
+
+@app.route("/contact", methods=['GET'])
+def contact():
+    return render_template("contact.html")
+
 if __name__ == '__main__':
     p1 = aq.useLite()
     myDb = database()
