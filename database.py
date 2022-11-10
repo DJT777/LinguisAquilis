@@ -184,6 +184,72 @@ class database:
             self.lock.release()
             self.closeConnection()
         
-    
+    def insertVisitor(self, data, table):
+        count = 0
+        if self.sqlConnection:
+            try:
+                self.connectDatabase()
+                self.lock.acquire(True)
+                self.mycursor.execute('''INSERT INTO visitors VALUES(?, ?, ?, ?, ?);''', (data["city"],data["region"],data["country"],data["postal"],data["timezone"]))
+                self.sqlConnection.commit()
+                print('Inserted: ',count, ' rows.')    
+            except sqlite3.Error as error:
+                print('Error occured at InsertClass - ', error)  
+            finally:
+                self.closeConnection()
+                self.lock.release()
+        else:
+            self.connectDatabase()
+            self.insertClass()
 
+    def createVisitorTable(self, table):
+        if self.sqlConnection:
+            try:
+                self.connectDatabase()
+                self.lock.acquire(True)
+                query = '''CREATE TABLE IF NOT EXISTS visitors (city TEXT, region TEXT, country TEXT, zip TEXT, timezone TEXT);'''
+                self.mycursor.execute(query)
+                # self.mycursor.commit()
+                print('CreatedTable: ', table)
+            except sqlite3.Error as error:
+                print('Error occured at Creating Table ' + table+' - ', error)  
+            finally:
+                self.closeConnection()
+                self.lock.release()
+        else:
+            self.connectDatabase()
+            self.createTable()
+
+    def getVisitorInfo(self, table):
+        try:
+            self.lock.acquire(True)
+            self.connectDatabase()
+            tableSize = self.getAllVisitors('Visitors')
+            self.mycursor.execute('''SELECT city, COUNT(*) FROM visitors GROUP BY city''')
+            data = self.mycursor.fetchall()
+            if(len(data) > 0):
+                print('Top Cities from', table, '\n')
+                for row in data:
+                    # print(row)
+                    # print('length ',len(data))
+                    print('City: ', row[0])
+                    print('Count: ', row[1])
+                    percent = (tableSize/row[1])*100
+                    print(percent , '%' , ' live in' , row[0] )
+            else:
+                print('Size is ', len(data))   
+        except sqlite3.Error as error:
+            print('Error occured at getting visitor data from database - ', error)      
+        finally:
+            self.lock.release()
+            self.closeConnection()
+    def getAllVisitors(self, table):
+        try:
+            self.connectDatabase()
+            self.mycursor.execute('''SELECT * FROM visitors''')
+            data = self.mycursor.fetchall()
+            tableSize = len(data)
+            return tableSize 
+        except sqlite3.Error as error:
+            print('Error occured at getting visitor data from database - ', error)      
 
