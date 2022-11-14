@@ -31,11 +31,12 @@ content %}
             <p class="title">Find Quick Recommendations</p>
             <p class="subtitle">I want to learn...</p>
             <div class="quick">
-              <form method="post">
+              <form action="/" method="post">
                 {% for x in quickRec %}
                 <button
-                  name="{{x['query']}}"
-                  value="{{x['name']}}"
+                  type="submit"
+                  name="query"
+                  value="{{x['query']}}"
                   class="quick-rec is-responsive button is-outlined is-rounded"
                 >
                   <i class="{{x['class']}}"></i>

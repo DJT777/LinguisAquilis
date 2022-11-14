@@ -11,6 +11,7 @@ class Visitor:
     timezone = ''
     data = None
     database = None
+    insightData = None
 
     def __init__(self, database) -> None:
         self.data = self.getData()
@@ -35,6 +36,7 @@ class Visitor:
         except:
             print('Error Getting Visitor Data')
             return False    
+    
     def logVisitor(self):
         try:
             self.database.createVisitorTable('visitors')
@@ -42,3 +44,6 @@ class Visitor:
             self.database.getVisitorInfo('visitors')
         except:
             print('Error Logging Visitor Data')  
+    
+    def getInsightData(self):
+        self.insightData = self.database.getVisitorCityInfo('Visitors');

@@ -42,5 +42,6 @@ myDb.path = './data/sql.db'
 # myDb.getTopCourses('classlist')
 
 visitor = Visitor(myDb)
-myDb.getVisitorInfo('Visitors')
+# myDb.getVisitorCityInfo('Visitors')
+myDb.getTopCourses('Classlist')
 

@@ -6,8 +6,6 @@ class database:
     mycursor = None
     sqlConnection = None
     lock = None
-
-
     def __init__(self):
         try:
             self.sqlConnection = sqlite3.connect(self.path, check_same_thread=False)
@@ -17,7 +15,7 @@ class database:
             self.createTable('classlist')
         except sqlite3.Error as error:
             print('Error occured Init - ', error)
-    
+
     def testCursor(self):
         if self.sqlConnection:
             try:
@@ -85,6 +83,7 @@ class database:
         else:
             self.connectDatabase()
             self.insertClass()
+    
     def dropTable(self, table):
         if self.sqlConnection:
             try:
@@ -170,20 +169,20 @@ class database:
         try:
             self.lock.acquire(True)
             self.connectDatabase()
-            self.mycursor.execute('''SELECT score, title FROM classlist ORDER BY title DESC LIMIT 5''')
+            self.mycursor.execute('''SELECT score, title FROM classlist ORDER BY score DESC LIMIT 5''')
             data = self.mycursor.fetchall()
             if(len(data) > 1):
                 print('All data in table', table, '\n')
                 for row in data:
-                    print(row)
+                    print(row[1])
             else:
                 print('Table size is ', len(data))    
         except sqlite3.Error as error:
             print('Error occured at Top Courses - ', error)      
         finally:
             self.lock.release()
-            self.closeConnection()
-        
+            self.closeConnection()   
+    # Visitors Section
     def insertVisitor(self, data, table):
         count = 0
         if self.sqlConnection:
@@ -220,22 +219,28 @@ class database:
             self.connectDatabase()
             self.createTable()
 
-    def getVisitorInfo(self, table):
+    def getVisitorCityInfo(self, table):
+        returnDict = dict()
         try:
             self.lock.acquire(True)
             self.connectDatabase()
             tableSize = self.getAllVisitors('Visitors')
-            self.mycursor.execute('''SELECT city, COUNT(*) FROM visitors GROUP BY city''')
+            self.mycursor.execute('''SELECT region, city, COUNT(*) FROM visitors GROUP BY city''')
             data = self.mycursor.fetchall()
             if(len(data) > 0):
                 print('Top Cities from', table, '\n')
                 for row in data:
                     # print(row)
                     # print('length ',len(data))
-                    print('City: ', row[0])
-                    print('Count: ', row[1])
-                    percent = (tableSize/row[1])*100
-                    print(percent , '%' , ' live in' , row[0] )
+                    print('Region: ', row[0])
+                    print('City: ', row[1])
+                    print('Count: ', row[2])
+                    percent = (tableSize/row[2])*100
+                    print(percent , '%' , ' live in' , row[1],',', row[0])
+                    returnDict["city"] = row[0]
+                    returnDict["cityPercentage"] = percent
+                    returnDict["region"] = row[0]
+                    return returnDict
             else:
                 print('Size is ', len(data))   
         except sqlite3.Error as error:
@@ -243,6 +248,7 @@ class database:
         finally:
             self.lock.release()
             self.closeConnection()
+    
     def getAllVisitors(self, table):
         try:
             self.connectDatabase()
@@ -252,4 +258,20 @@ class database:
             return tableSize 
         except sqlite3.Error as error:
             print('Error occured at getting visitor data from database - ', error)      
-
+    
+    def getAllVisitorData(self):
+        try:
+            self.lock.acquire(True)
+            self.connectDatabase()
+            self.mycursor.execute('''SELECT * FROM visitors''')
+            data = self.mycursor.fetchall()
+            if(len(data) > 0):
+                for row in data:
+                    print(row)
+            else:
+                print('Size is ', len(data))   
+        except sqlite3.Error as error:
+            print('Error occured at getting visitor data from database - ', error)      
+        finally:
+            self.lock.release()
+            self.closeConnection()
