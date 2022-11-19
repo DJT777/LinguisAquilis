@@ -25,12 +25,12 @@ content %}
       </section>
       <section class="flex-container container">
         <div class="block">
-          <form method="POST">
+          <form class="user-input"" method="POST">
             <label class="my-title" for="userInterests"
               >Or tell us about your interests</label
             >
             <input
-              class="input is-medium is-focused"
+              class="input is-medium is-focused
               type="text"
               id="userInputDescription"
               name="userInputDescription"
@@ -72,7 +72,7 @@ content %}
         </div>
       </section>
     </div>
-    <div class="column is-3">
+    <div class="column is-4">
       {%if containsData == "True" %}
       <div id="results-menu" class="box block">
         <h1>Results</h1>
@@ -80,24 +80,23 @@ content %}
           {% for x in recommendedClasses %}
           <span class="tag is-large is-info"
             >{{x['course_dept'] + " " + x['course_number'] + " " +
-            x['course_title']}}</span>
+            x['course_title']}}</span
+          >
           {% endfor %}
         </div>
       </div>
-      {% endif %}
-      {%if containsDataMajor == "True" %}
+      {% endif %} {%if containsDataMajor == "True" %}
       <div id="results-menu2" class="box block">
         <h1>Results</h1>
         <div class="tags">
           {% for x in recommendedClasses %}
-          <span class="tag is-large is-info"
-            >{{x}}</span>
+          <span class="tag is-large is-info">{{x}}</span>
           {% endfor %}
         </div>
       </div>
       {% endif %}
     </div>
-    <div class="column is-1"></div>
+    <div class="column is-2"></div>
   </div>
 </main>
 

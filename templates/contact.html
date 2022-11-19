@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block title %} {% endblock %} {% block content %}
+{% extends "base.html" %} {% block title %} Contact {% endblock %} {% block
+content %}
 <main class="form-container">
   <section class="container hero is-link">
     <div class="hero-body">
@@ -34,15 +35,22 @@
         </figure>
       </div>
       <h2 class="subtitle is-6">
-        <strong>Our fill out this form</strong>
+        <strong>Or fill out this form</strong>
       </h2>
     </div>
   </section>
   <div class="form-container container">
-    <form id="form">
+    <form method="POST" id="form">
       <div class="field">
         <label for="name" class="label">Name</label>
-        <input id="name" type="text" class="input" placeholder="Enter Name" />
+        <input
+          id="name"
+          type="text"
+          class="input"
+          name="name"
+          placeholder="Enter Name"
+          required
+        />
       </div>
       <div class="field">
         <label for="email" class="label">Email</label>
@@ -50,7 +58,9 @@
           id="email"
           type="email"
           class="input"
+          name="email"
           placeholder="Enter Email"
+          required
         />
       </div>
       <div class="field">
@@ -58,15 +68,16 @@
         <input
           id="phone"
           type="phone"
+          name="phone"
           class="input"
-          placeholder="Enter Phone"
+          placeholder="Enter Phone (Optional)"
         />
       </div>
       <div class="field">
         <label class="label">Prefered via of contact</label>
         <div class="control">
           <div class="select">
-            <select>
+            <select name="contact_choice" required>
               <option>Email</option>
               <option>Phone</option>
             </select>
@@ -82,7 +93,20 @@
             cols="20"
             rows="3"
             class="textarea"
+            required
+            value="fdgjn"
           ></textarea>
+        </div>
+      </div>
+      <div class="container">
+        <div class="control field">
+          <input
+            type="submit"
+            value="Submit"
+            id="submit"
+            class="button is-link"
+          />
+          <input value="Clear" type="clear" class="button is-danger" />
         </div>
       </div>
     </form>
@@ -94,16 +118,6 @@
           onclick="deletenotification()"
         ></button>
         Success! A sales representative will contact you shortly
-      </div>
-    </div>
-    <div class="container">
-      <div class="control field">
-        <button id="submit" class="button is-link" onclick="submitform()">
-          Submit
-        </button>
-        <button class="button is-danger" onclick="clearform('form')">
-          Clear
-        </button>
       </div>
     </div>
   </div>

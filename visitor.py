@@ -1,6 +1,5 @@
 import this
 import requests
-
 from database import database
 
 class Visitor:
@@ -46,4 +45,10 @@ class Visitor:
             print('Error Logging Visitor Data')  
     
     def getInsightData(self):
-        self.insightData = self.database.getVisitorCityInfo('Visitors');
+        try:
+            self.insightData = self.database.getVisitorCityInfo('Visitors')
+            self.insightData['topCourse'] = self.database.getTopCourses('Classlist')
+        except:
+            print("Error Getting Data")
+        finally:
+            return self.insightData

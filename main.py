@@ -15,6 +15,8 @@ import json
 import sentencepiece
 import laUSE as aq
 from  database import  database
+from visitor import Visitor
+from form import Form
 
 app = Flask(__name__)
 class_json = open('data.json')
@@ -92,15 +94,30 @@ def index():
 
 @app.route("/insights", methods=['GET'])
 def insights():
-    return render_template("insights.html")
+    myDb = database()
+    visitor = Visitor(myDb)
+    insightsData = visitor.getInsightData()
+    return render_template("insights.html", insight=insightsData)
 
 @app.route("/about", methods=['GET'])
 def about():
     return render_template("about.html")
 
-@app.route("/contact", methods=['GET'])
+@app.route("/contact", methods=['GET','POST'])
 def contact():
-    return render_template("contact.html")
+    if request.method == "GET":
+        return render_template("contact.html")
+    if request.method == "POST":
+        # myDb = database()
+        form = Form(myDb)
+        form.name = request.form['name']
+        form.email = request.form['email']
+        form.phoneNumber = request.form['phone']
+        form.contactChoice = request.form['contact_choice']
+        form.notes = request.form['notes']
+        print(form.name)
+        form.logForm()
+        return render_template("contact.html")
 
 if __name__ == '__main__':
     p1 = aq.useLite()
@@ -109,6 +126,7 @@ if __name__ == '__main__':
     myDb.createTable('selectClass')
     myDb.createTable('describeClass')
     myDb.createTable('describeMajor')
+    myDb.createFormTable('contact')
     app.run(debug=True)
 
 def embed(input):

@@ -1,5 +1,6 @@
 from database import database
 from visitor import Visitor
+from form import Form
 
 
 
@@ -41,7 +42,22 @@ myDb.path = './data/sql.db'
 # # myDb.courseExists(sampleCourse, 'classlist')
 # myDb.getTopCourses('classlist')
 
-visitor = Visitor(myDb)
+# visitor = Visitor(myDb)
+form = Form(myDb)
+form.name = "Yosep"
+form.email = "yosep@gmail.com"
+form.phoneNumber ="5555555555"
+form.notes = "Hello"
+form.contactChoice = "Email"
+# form.logForm()
+# myDb.insertForm(form)
 # myDb.getVisitorCityInfo('Visitors')
-myDb.getTopCourses('Classlist')
+# myDb.getTopCourses('Classlist')
+# myDb.getTopCourses('Classlist')
+# myDb.dropTable("contact")
+# myDb.createFormTable("contact")
+myDb.getAllTableData("contact")
 
+
+
+        
