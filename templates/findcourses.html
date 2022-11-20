@@ -73,6 +73,7 @@ content %}
       </section>
     </div>
     <div class="column is-3">
+      <form method="POST">
       {%if containsData == "True" %}
       <div id="results-menu" class="box block">
         <h1>Results</h1>
@@ -83,6 +84,15 @@ content %}
             x['course_title']}}</span>
           {% endfor %}
         </div>
+        <label><input type="radio" name="option" value="True">This recommendation was helpful</label><br>
+        <label><input type="radio" name="option" value="False">This recommendation was not helpful</label><br>
+        <input
+              formmethod="POST"
+              name="submitButton"
+              type="submit"
+              value="Submit Feedback"
+              class="button is-danger"
+            />
       </div>
       {% endif %}
       {%if containsDataMajor == "True" %}
@@ -96,6 +106,7 @@ content %}
         </div>
       </div>
       {% endif %}
+      </form>
     </div>
     <div class="column is-1"></div>
   </div>
