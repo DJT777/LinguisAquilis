@@ -54,6 +54,9 @@ i {
   background-color: #002856;
   color: white;
 }
+.user-input {
+  width: 100%;
+}
 /* input[type='text'] {
   padding: 1px 10px;
   font-size: 8px;
@@ -86,7 +89,8 @@ i {
   display: block;
 }
 .results-menu {
-  width: fit-content;
+  width: min-content;
+  margin-right: 10px;
 }
 ul {
   list-style-type: none;
@@ -146,4 +150,17 @@ li a.active {
 /* Form Section */
 .form-container {
   padding-top: 1%;
+}
+
+/*Footer*/
+.footer-container {
+  align-items: center;
+  margin: 10px;
+}
+.footer {
+  align-items: center;
+}
+.logo-text {
+  font-style: italic;
+  float: left;
 }

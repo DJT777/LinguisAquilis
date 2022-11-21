@@ -25,12 +25,12 @@ content %}
       </section>
       <section class="flex-container container">
         <div class="block">
-          <form method="POST">
+          <form class="user-input"" method="POST">
             <label class="my-title" for="userInterests"
               >Or tell us about your interests</label
             >
             <input
-              class="input is-medium is-focused"
+              class="input is-medium is-focused
               type="text"
               id="userInputDescription"
               name="userInputDescription"
@@ -81,7 +81,8 @@ content %}
           {% for x in recommendedClasses %}
           <span class="tag is-large is-info"
             >{{x['course_dept'] + " " + x['course_number'] + " " +
-            x['course_title']}}</span>
+            x['course_title']}}</span
+          >
           {% endfor %}
         </div>
         <label><input type="radio" name="option" value="True">This recommendation was helpful</label><br>
@@ -94,21 +95,19 @@ content %}
               class="button is-danger"
             />
       </div>
-      {% endif %}
-      {%if containsDataMajor == "True" %}
+      {% endif %} {%if containsDataMajor == "True" %}
       <div id="results-menu2" class="box block">
         <h1>Results</h1>
         <div class="tags">
           {% for x in recommendedClasses %}
-          <span class="tag is-large is-info"
-            >{{x}}</span>
+          <span class="tag is-large is-info">{{x}}</span>
           {% endfor %}
         </div>
       </div>
       {% endif %}
       </form>
     </div>
-    <div class="column is-1"></div>
+    <div class="column is-2"></div>
   </div>
 </main>
 

@@ -15,6 +15,8 @@ import json
 import sentencepiece
 import laUSE as aq
 from  database import  database
+from visitor import Visitor
+from form import Form
 
 app = Flask(__name__)
 class_json = open('data.json')
@@ -96,18 +98,42 @@ def index():
         # return '<h1>Hello Default</h1>
         quickEmbbedings = p1.create_embeddings(output)
         recommendation = p1.query_embedding(quickEmbbedings, output)
-        return render_template("results.html", returnList = recommendation.recommendations_user_text)
+        
+        queryDescription = request.form['query']
+        embeddings = p1.create_embeddings(queryDescription);
+        recommendations = p1.query_embedding(embeddings, queryDescription);
+        myDb.insertClass(recommendations.recommendations_user_text, "quickrecs");
+        return render_template("results.html", returnList = recommendations.recommendations_user_text)
     else:
         # get form data
         return '<h1>Hello Default</h1>'
+
+@app.route("/insights", methods=['GET'])
+def insights():
+    myDb = database()
+    visitor = Visitor(myDb)
+    insightsData = visitor.getInsightData()
+    return render_template("insights.html", insight=insightsData)
 
 @app.route("/about", methods=['GET'])
 def about():
     return render_template("about.html")
 
-@app.route("/contact", methods=['GET'])
+@app.route("/contact", methods=['GET','POST'])
 def contact():
-    return render_template("contact.html")
+    if request.method == "GET":
+        return render_template("contact.html")
+    if request.method == "POST":
+        # myDb = database()
+        form = Form(myDb)
+        form.name = request.form['name']
+        form.email = request.form['email']
+        form.phoneNumber = request.form['phone']
+        form.contactChoice = request.form['contact_choice']
+        form.notes = request.form['notes']
+        print(form.name)
+        form.logForm()
+        return render_template("contact.html")
 
 if __name__ == '__main__':
     p1 = aq.useLite()
@@ -118,6 +144,7 @@ if __name__ == '__main__':
     myDb.createTable('describeClass')
     myDb.createTable('describeMajor')
     myDb.createTable('userFeedback')
+    myDb.createFormTable('contact')
 
     app.run(debug=True)
 

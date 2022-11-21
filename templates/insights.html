@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Insights</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"
@@ -21,6 +21,11 @@
       href="{{ url_for('static', filename='styles.css')}}"
     />
     <link rel="styles.css" href="/static/styles.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='images/favicon.ico')}}"
+    />
   </head>
   <body>
     <main>
@@ -36,7 +41,7 @@
         <div class="hero-body">
           <p class="title">Explore Insights</p>
           <p class="subtitle">
-            This Portal Includes Insights on popular course options and more.
+            This portal includes insights on popular course options and more.
           </p>
         </div>
       </section>
@@ -45,7 +50,9 @@
           <div class="column is-4">
             <div class="card">
               <div class="card-content">
-                <p class="title">Anth 101 Introduction to Anthropoplogy</p>
+                {% if insight %}
+                <p class="title">{{ insight['topCourse'][0].description }}</p>
+                {% endif %}
                 <p class="subtitle">Is the most popular course among users.</p>
               </div>
               <footer class="card-footer">
@@ -67,7 +74,7 @@
           <div class="column is-4">
             <div class="box">
               <h1 class="title is-3">Top 5 Courses</h1>
-              <p class="subtitle is-5">Lorem ipsum dolor sit.</p>
+              <!-- <p class="subtitle is-5">Lorem ipsum dolor sit.</p> -->
               <table class="table">
                 <thead>
                   <tr>
@@ -77,11 +84,13 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {% if insight %} {% for x in insight['topCourse'] %}
                   <tr>
-                    <td>Anth</td>
-                    <td>100</td>
-                    <td>Anthropoplogy</td>
+                    <td>{{x.name}}</td>
+                    <td>{{x.code}}</td>
+                    <td>{{x.description}}</td>
                   </tr>
+                  {% endfor%} {% endif %}
                 </tbody>
                 <tfoot>
                   <tr>
@@ -111,23 +120,33 @@
           <div class="column is-5">
             <article class="tile is-child notification is-danger">
               <span><i class="fa-solid fa-city icon"></i></span>
-              <p class="title">Evansville, Indiana</p>
-              <p class="subtitle">100% of users live here.</p>
-              <div class="content">
-                <!-- Content -->
-              </div>
+              <p class="title">
+                {% if insight %} {{insight['city'] + ', ' + insight['region'] }}
+                {% endif %}
+              </p>
+              <p class="subtitle">
+                {% if insight %} {{insight['cityPercentage']}} {% endif %} of
+                our users live here.
+              </p>
             </article>
           </div>
           <div class="column is-3">
             <article class="tile is-child notification is-warning">
               <span><i class="icon fa-solid fa-flag-usa"></i></span>
-              <p class="title">Indiana</p>
-              <p class="subtitle">Most users live in Indiana</p>
+              <p class="title">
+                {% if insight %} {{insight['region']}} {% endif %}
+              </p>
+              <p class="subtitle">
+                Most users live in {% if insight %} {{insight['region']}} {%
+                endif %}
+              </p>
             </article>
           </div>
           <div class="column is-4">
             <article class="tile is-child notification is-primary">
-              <p class="title">47711...</p>
+              <p class="title">
+                {% if insight %} {{insight['zip']}} {% endif %}...
+              </p>
               <p class="subtitle">Top ZIP code from our users</p>
             </article>
           </div>
