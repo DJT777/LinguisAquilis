@@ -1,6 +1,5 @@
 import this
 import requests
-
 from database import database
 
 class Visitor:
@@ -11,6 +10,7 @@ class Visitor:
     timezone = ''
     data = None
     database = None
+    insightData = None
 
     def __init__(self, database) -> None:
         self.data = self.getData()
@@ -35,6 +35,7 @@ class Visitor:
         except:
             print('Error Getting Visitor Data')
             return False    
+    
     def logVisitor(self):
         try:
             self.database.createVisitorTable('visitors')
@@ -42,3 +43,12 @@ class Visitor:
             self.database.getVisitorInfo('visitors')
         except:
             print('Error Logging Visitor Data')  
+    
+    def getInsightData(self):
+        try:
+            self.insightData = self.database.getVisitorCityInfo('Visitors')
+            self.insightData['topCourse'] = self.database.getTopCourses('Classlist')
+        except:
+            print("Error Getting Data")
+        finally:
+            return self.insightData

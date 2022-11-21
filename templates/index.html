@@ -9,7 +9,7 @@ content %}
         <h1 class="index-heading title is-1 is-centered">
           Find Courses That Fit Your Lifestyle
         </h1>
-        <form method="POST">
+        <form action="/findcourses" method="GET">
           <button
             type="submit"
             name="submitButton"
@@ -31,11 +31,12 @@ content %}
             <p class="title">Find Quick Recommendations</p>
             <p class="subtitle">I want to learn...</p>
             <div class="quick">
-              <form method="post">
+              <form action="/" method="post">
                 {% for x in quickRec %}
                 <button
-                  name="{{x['query']}}"
-                  value="{{x['name']}}"
+                  type="submit"
+                  name="query"
+                  value="{{x['query']}}"
                   class="quick-rec is-responsive button is-outlined is-rounded"
                 >
                   <i class="{{x['class']}}"></i>

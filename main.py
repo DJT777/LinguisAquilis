@@ -15,6 +15,8 @@ import json
 import sentencepiece
 import laUSE as aq
 from  database import  database
+from visitor import Visitor
+from form import Form
 
 app = Flask(__name__)
 class_json = open('data.json')
@@ -78,35 +80,44 @@ def index():
         index_course_list = json.load(index_course_list)
         return render_template('index.html', quickRec = index_course_list)
     if request.method == "POST":
-        if request.form["submitButton"] == "Find Courses":
-            return redirect(url_for("findcourses")) 
-        print("Request.Form: ")
-        # output = request.form.getlist('name[]')
-        output = request.form.to_dict(flat=False)
-        for item in output:
-            output = item
-        # print(output.items())
-        # return '<h1>Hello Default</h1>
-        quickEmbbedings = p1.create_embeddings(output)
-        p = hnswlib.Index(space='cosine', dim=512)
-        p.load_index("./notebooks/index.bin")
-        labels, distances = p.knn_query(quickEmbbedings, k=5)
-        labels_to_return = labels[0]
-        recommendations_user_text = []
-        for index in labels_to_return:
-            recommendations_user_text.append(class_data[index])
-        return render_template("results.html", returnList = recommendations_user_text)
+        p1 = aq.useLite()
+        myDb = database()
+        myDb.createTable('classlist')
+        queryDescription = request.form['query']
+        embeddings = p1.create_embeddings(queryDescription);
+        recommendations = p1.query_embedding(embeddings, queryDescription);
+        myDb.insertClass(recommendations.recommendations_user_text, "quickrecs");
+        return render_template("results.html", returnList = recommendations.recommendations_user_text)
     else:
         # get form data
         return '<h1>Hello Default</h1>'
+
+@app.route("/insights", methods=['GET'])
+def insights():
+    myDb = database()
+    visitor = Visitor(myDb)
+    insightsData = visitor.getInsightData()
+    return render_template("insights.html", insight=insightsData)
 
 @app.route("/about", methods=['GET'])
 def about():
     return render_template("about.html")
 
-@app.route("/contact", methods=['GET'])
+@app.route("/contact", methods=['GET','POST'])
 def contact():
-    return render_template("contact.html")
+    if request.method == "GET":
+        return render_template("contact.html")
+    if request.method == "POST":
+        # myDb = database()
+        form = Form(myDb)
+        form.name = request.form['name']
+        form.email = request.form['email']
+        form.phoneNumber = request.form['phone']
+        form.contactChoice = request.form['contact_choice']
+        form.notes = request.form['notes']
+        print(form.name)
+        form.logForm()
+        return render_template("contact.html")
 
 if __name__ == '__main__':
     p1 = aq.useLite()
@@ -115,7 +126,7 @@ if __name__ == '__main__':
     myDb.createTable('selectClass')
     myDb.createTable('describeClass')
     myDb.createTable('describeMajor')
-
+    myDb.createFormTable('contact')
     app.run(debug=True)
 
 def embed(input):
