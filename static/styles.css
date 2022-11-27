@@ -164,3 +164,9 @@ li a.active {
   font-style: italic;
   float: left;
 }
+/*Contact Portal*/
+.id-field {
+  width: min-content;
+  border: none;
+  font-weight: 500;
+}

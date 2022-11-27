@@ -45,14 +45,58 @@ class database:
         if self.sqlConnection:
             self.sqlConnection.close()
             print('SQL connection closed.')
+    
+    def dropTable(self, table):
+        if self.sqlConnection:
+            try:
+                self.lock.acquire(True)
+                self.connectDatabase()
+                self.mycursor.execute("DROP TABLE IF EXISTS " +table)
+                print("Dropped: " +table)
+            except sqlite3.Error as error:
+                print('Error occured at DropTable - ', error)  
+            finally:
+                self.lock.release()
+                self.closeConnection()
+        else:
+            self.connectDatabase()
+            self.dropTable()
 
+    def getAllTableData(self, table):
+        if self.sqlConnection:
+            try:
+                self.lock.acquire(True)
+                self.connectDatabase()
+                query = "SELECT * FROM " +table
+                # query = "SELECT * FROM contact" 
+                self.mycursor.execute(query)
+                data = self.mycursor.fetchall()
+                if len(data) < 1:
+                    print(table+' table is empty')
+                else:
+                    print('All data in table', table, '\n')
+                    for row in data:
+                        print(row)
+                print('Table size is: ', len(data))
+                self.sqlConnection.commit()
+                return data
+            except sqlite3.Error as error:
+                print('Error Getting Table ', table)
+                print('Error occured  - ', error)  
+            finally:
+                self.lock.release()
+                self.closeConnection()
+        else:
+            self.connectDatabase()
+            self.getAllTableData()
+#Course Section
     def createTable(self, table):
         if self.sqlConnection:
             try:
                 self.connectDatabase()
                 self.lock.acquire(True)
-                query = '''CREATE TABLE IF NOT EXISTS classlist (id TEXT PRIMARY KEY, dept TEXT, title TEXT, number TEXT, score INT);'''
-                # query = "CREATE TABLE IF NOT EXISTS " +table+ " (id TEXT PRIMARY KEY, dept TEXT, title TEXT, number TEXT, score INT);"
+                # query = '''CREATE TABLE IF NOT EXISTS classlist (id TEXT PRIMARY KEY, dept TEXT, title TEXT, number TEXT, score INT);'''
+                query = "CREATE TABLE IF NOT EXISTS " +table+ " (id TEXT PRIMARY KEY, dept TEXT, title TEXT, number TEXT, score INT);"
                 self.mycursor.execute(query)
                 # self.mycursor.commit()
                 print('CreatedTable: ', table)
@@ -65,77 +109,35 @@ class database:
             self.connectDatabase()
             self.createTable()
 
-    def insertClass(self, courses, table):
+    def insertSingleClass(self, course, table):
         count = 0
         if self.sqlConnection:
             try:
                 # query = 'INSERT or IGNORE INTO classlist VALUES(?, ?, ?, ?);'
                 self.connectDatabase()
                 self.lock.acquire(True)
-                for course in courses:
-                    courseId = course['course_dept'] + course['course_number']
-                    self.mycursor.execute('''INSERT or IGNORE INTO classlist VALUES(?, ?, ?, ?, ?);''', (courseId, course['course_dept'], course['course_title'], course['course_number'], 1))
-                    count += self.mycursor.rowcount
-                    self.sqlConnection.commit()
+                courseId = course['course_dept'] + course['course_number']
+                self.mycursor.execute("INSERT or IGNORE INTO " + table + " VALUES(?, ?, ?, ?, ?);", (courseId, course['course_dept'], course['course_title'], course['course_number'], 1))
+                count += self.mycursor.rowcount
+                self.sqlConnection.commit()
                 print('Inserted: ',count, ' rows.')    
             except sqlite3.Error as error:
-                print('Error occured at InsertClass - ', error)  
+                print('Error occured at InsertSingleClass - ', error)  
+                print('Failed to insert: - ', courseId)  
             finally:
                 self.closeConnection()
                 self.lock.release()
         else:
             self.connectDatabase()
-            self.insertClass()
-    
-    def dropTable(self, table):
-        if self.sqlConnection:
-            try:
-                self.connectDatabase()
-                self.mycursor.execute("DROP TABLE IF EXISTS " +table)
-                # self.mycursor.commit()
-                print("Dropped: " +table)
-            except sqlite3.Error as error:
-                print('Error occured at DropTable - ', error)  
-            finally:
-                self.closeConnection()
-        else:
-            self.connectDatabase()
-            self.dropTable()
-
-    def getAllTableData(self, table):
-        if self.sqlConnection:
-            try:
-                self.lock.acquire(True)
-                self.connectDatabase()
-                # query = "SELECT * FROM " +table
-                query = "SELECT * FROM contact" 
-                self.mycursor.execute(query)
-                data = self.mycursor.fetchall()
-                if len(data) < 1:
-                    print(table+' table is empty')
-                else:
-                    print('All data in table', table, '\n')
-                    for row in data:
-                        print(row)
-                print('Table size is: ', len(data))
-                self.sqlConnection.commit()
-            except sqlite3.Error as error:
-                print('Error Getting Table ', table)
-                print('Error occured  - ', error)  
-            finally:
-                self.lock.release()
-                self.closeConnection()
-        else:
-            self.connectDatabase()
-            self.getAllTableData()
-    
-    def increment(self, courseId):
+            self.insertSingleClass()
+ 
+    def increment(self, courseId, table):
         if self.sqlConnection:
             try:
                 # self.lock.acquire(True)
                 self.connectDatabase()
                 # print('Course ID: ', courseId)
-                self.mycursor.execute('''UPDATE classlist SET score = score + 1 WHERE id = ? ''' ,(courseId,))
+                self.mycursor.execute("UPDATE " + table +" SET score = score + 1 WHERE id = ? ",(courseId,))
                 self.sqlConnection.commit()
                 print('Commited')
             except sqlite3.Error as error:
@@ -146,6 +148,22 @@ class database:
         else:
             print('Cannot increment')
     
+    def insertClass(self, courses, table):
+        if self.sqlConnection:
+            try:
+                self.lock.acquire(True)
+                self.connectDatabase()
+                for course in courses:
+                    self.courseExists(course, table)
+            except sqlite3.Error as error:
+                print('Error occured at insertClass - ', error)  
+            finally:
+                self.lock.release()
+                self.closeConnection()
+        else:
+            self.connectDatabase()
+            self.insertClass()
+
     def courseExists(self, course, table):
         try:
             self.lock.acquire(True)
@@ -153,16 +171,16 @@ class database:
             courseId = course['course_dept'] + course['course_number'] 
             # query = 'SELECT * FROM ' + table + ' WHERE id = ' + courseId
             # courseId = "'" + courseId + "'"
-            self.mycursor.execute('''SELECT * FROM classlist WHERE id = ?''', (courseId,))
+            self.mycursor.execute("SELECT * FROM "+ table +" WHERE id = ?", (courseId,))
             count = self.mycursor.fetchone() is not None
             print('Id: ',courseId , ' is ' , count)
             if count:
-                self.increment(courseId)
+                self.increment(courseId, table)
             else:
                 print('Add')
                 courseList = []
                 courseList.insert(course)
-                self.insertClass(courseList, 'classlist')
+                self.insertSingleClass(courseList, 'classlist')
         except sqlite3.Error as error:
                 print('Error occured at exists - ', error)  
         finally:
@@ -205,13 +223,13 @@ class database:
                 count = self.mycursor.rowcount
                 print('Inserted: ',count, ' rows.')    
             except sqlite3.Error as error:
-                print('Error occured at InsertClass - ', error)  
+                print('Error occured at InsertVisitor - ', error)  
             finally:
                 self.closeConnection()
                 self.lock.release()
         else:
             self.connectDatabase()
-            self.insertClass()
+            self.insertVisitor()
 
     def createVisitorTable(self, table):
         if self.sqlConnection:
@@ -242,8 +260,6 @@ class database:
             if(len(data) > 0):
                 print('Top Cities from', table, '\n')
                 for row in data:
-                    # print(row)
-                    # print('length ',len(data))
                     print('Zip: ', row[0])
                     print('Region: ', row[1])
                     print('City: ', row[2])
@@ -327,3 +343,42 @@ class database:
         else:
             self.connectDatabase()
             self.insertForm(form)
+    
+    def markFromComplete(self,formId):
+        if self.sqlConnection:
+            try:
+                self.lock.acquire(True)
+                self.connectDatabase()
+                self.mycursor.execute('''UPDATE contact SET completed = 1 WHERE id = ? ''' ,(formId,))
+                self.sqlConnection.commit()
+                print('Commited')
+            except sqlite3.Error as error:
+                print('Error occured at Increment - ', error) 
+            finally:
+                self.lock.release()
+                self.closeConnection()
+        else:
+            print('Cannot mark form as completed.')
+    
+    def executeDataQuery(self, table):
+        if self.sqlConnection:
+            try:
+                query ="SELECT * FROM contact ORDER BY completed ASC, timestamp DESC";
+                self.lock.acquire(True)
+                self.connectDatabase()
+                self.mycursor.execute(query)
+                data = self.mycursor.fetchall()
+                if len(data) < 1:
+                    print(table +' table is empty')
+                else:
+                    self.sqlConnection.commit()
+                    return data
+            except sqlite3.Error as error:
+                print('Error Retrieving Data table: ', table)
+                print('Error occured  - ', error)  
+            finally:
+                self.lock.release()
+                self.closeConnection()
+        else:
+            self.connectDatabase()
+            self.executeDataQuery()
