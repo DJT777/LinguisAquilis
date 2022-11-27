@@ -1,0 +1,67 @@
+{% extends "navbase.html" %} {% block title %} Contact Inquires {% endblock %}
+{% block content %}
+<main>
+  <section class="section">
+    <div class="container">
+      <section class="hero is-link">
+        <div class="hero-body">
+          <p class="title">Contact Inquires</p>
+          <p class="subtitle">Lorem ipsum dolor sit amet.</p>
+        </div>
+      </section>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <table class="table">
+        <thead>
+          <th><abbr title="Name">Name</abbr></th>
+          <th><abbr title="Email">Email</abbr></th>
+          <th><abbr title="Phone">Phone</abbr></th>
+          <th><abbr title="Notes">Notes</abbr></th>
+          <th><abbr title="Action">Action</abbr></th>
+        </thead>
+        <tbody>
+          {% if list %} {% for x in list %}
+          <tr>
+            <td>{{x[1]}}</td>
+            <td>{{x[2]}}</td>
+            <td>{{x[3]}}</td>
+            <td>{{x[5]}}</td>
+            {% if x[7] == 0 %}
+            <td>
+              <form method="post">
+                <input type="text" name="id" value="{{x[0]}}" hidden />
+                <input
+                  class="button is-danger is-light"
+                  type="submit"
+                  name="{{x[0]}}"
+                  value="Mark Completed"
+                />
+              </form>
+            </td>
+            {% endif %} {% if x[7] == 1 %}
+            <td>
+              <input
+                class="button is-success is-light"
+                type="submit"
+                value="Completed"
+                disabled
+              />
+            </td>
+            {% endif %}
+          </tr>
+          {% endfor%} {% endif %}
+        </tbody>
+        <tfoot>
+          <th><abbr title="Name">Name</abbr></th>
+          <th><abbr title="Email">Email</abbr></th>
+          <th><abbr title="Phone">Phone</abbr></th>
+          <th><abbr title="Notes">Notes</abbr></th>
+          <th><abbr title="Action">Action</abbr></th>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+</main>
+{% endblock %}

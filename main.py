@@ -125,7 +125,6 @@ def contact():
         return render_template("contact.html")
     if request.method == "POST":
         # myDb = database()
-        form = Form(myDb)
         form.name = request.form['name']
         form.email = request.form['email']
         form.phoneNumber = request.form['phone']
@@ -134,6 +133,18 @@ def contact():
         print(form.name)
         form.logForm()
         return render_template("contact.html")
+@app.route("/contactportal", methods=['GET','POST'])
+def contactportal():
+    if request.method == "GET":
+        formList = myDb.executeDataQuery("contact")
+        print('From table: ', len(formList))
+        return render_template("contactportal.html", list=formList)
+    if request.method == "POST":
+        formId = request.form.get("id")
+        # print("Form Id is: ",formId)
+        myDb.markFromComplete(formId);
+        formList = myDb.executeDataQuery("contact")
+        return render_template("contactportal.html", list=formList)
 
 if __name__ == '__main__':
     p1 = aq.useLite()
@@ -145,7 +156,7 @@ if __name__ == '__main__':
     myDb.createTable('describeMajor')
     myDb.createTable('userFeedback')
     myDb.createFormTable('contact')
-
+    form = Form(myDb)
     app.run(debug=True)
 
 def embed(input):

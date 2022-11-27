@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"
+      integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://kit.fontawesome.com/42e7bd55fd.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css')}}"
+    />
+    <script
+      src="https://kit.fontawesome.com/42e7bd55fd.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='images/favicon.ico')}}"
+    />
+  </head>
+  <body>
+    <header>
+      <nav
+        class="navbar is-light"
+        role="navigation"
+        aria-label="main navigation"
+      >
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">
+            <img src="/static/images/logo.png" width="28" height="28" />
+          </a>
+          <a
+            role="button"
+            class="navbar-burger"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbarBasicExample"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a href="{{ url_for('index') }}" class="navbar-item"> Home </a>
+            <a href="{{ url_for('insights') }}" class="navbar-item">
+              Dashboard
+            </a>
+            <a href="{{ url_for('contactportal') }}" class="navbar-item">
+              Inquires
+            </a>
+          </div>
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a href="{{ url_for('contact') }}" class="button is-link">
+                  <i class="fa-solid fa-comment"></i>
+                  <strong>Feedback</strong>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    {% block content %} {% endblock %}
+    <hr />
+    <footer class="footer">
+      <div class="footer-container">
+        <figure class="image is-32x32">
+          <img src="/static/images/logo.png" />
+          <h1 class="logo-text">LinguisAquilis</h1>
+        </figure>
+      </div>
+      <div class="content has-text-centered">
+        <p>
+          <strong>LinguisAquilis </strong> by
+          <a href="https://github.com/yalmanzade">Yosep Almanza</a> and
+          <a href="https://github.com/DJT777">Dylan Tulsey</a>. The website
+          content is licensed
+          <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+            >CC BY NC SA 4.0</a
+          >.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -24,3 +24,9 @@ class Form:
             print("Error at Inserting Form: ", e)
         finally:
             self.database = None
+    def getAllForms(self):
+        try:
+            self.database.getAllTableData("contact")
+        except Exception as e:
+            print("Error at Getting Forms: ", e)
+            
