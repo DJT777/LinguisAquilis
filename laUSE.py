@@ -119,6 +119,7 @@ class useLite:
         #print(labels)
         recommendation = Recommendation(user_description_string, user_description_embedding, labels, distances)
         print(recommendation.userQueryString)
+        self.currentRecommendation = recommendation
 
         return recommendation
 
@@ -129,6 +130,7 @@ class useLite:
         self.class_data = json.load(self.class_json)
         self.p = hnswlib.Index(space='cosine', dim=512)
         self.p.load_index("./notebooks/index.bin")
+        self.currentRecommendation = None
         #print(self.name)
         #print("A sample embedding")
         #print(self.sampleEmbedding)
