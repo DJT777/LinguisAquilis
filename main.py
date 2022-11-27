@@ -23,6 +23,7 @@ class_json = open('data.json')
 class_data = json.load(class_json)
 
 
+
 def filter_course(course):
     if(course not in class_data):
         return True
@@ -72,6 +73,12 @@ def findcourses():
                 return_recommendation.append(recommendation.recommended_major)
                 return render_template("findcourses.html", dropdownList=dropdown_list,
                                         recommendedClasses =return_recommendation, containsData="False", containsDataMajor="True")
+            if request.form['submitButton'] == "Submit Feedback":
+                option = request.form['option']
+                #TODO: INCLUDE THE BOOLEAN VARIABLE FOR HELPFULNESS OF RECOMMENDATION
+                myDb.insertClass(p1.currentRecommendation.recommendations_user_text, 'userFeedback')
+                return render_template('findcourses.html', mymethod="GET", dropdownList=dropdown_list,
+                                       recommendedClasses=dropdown_list, containsData="False")
 
 @app.route('/', methods=['GET', 'POST', 'PUT'])
 def index():
@@ -80,9 +87,18 @@ def index():
         index_course_list = json.load(index_course_list)
         return render_template('index.html', quickRec = index_course_list)
     if request.method == "POST":
-        p1 = aq.useLite()
-        myDb = database()
-        myDb.createTable('classlist')
+        if request.form["submitButton"] == "Find Courses":
+            return redirect(url_for("findcourses")) 
+        print("Request.Form: ")
+        # output = request.form.getlist('name[]')
+        output = request.form.to_dict(flat=False)
+        for item in output:
+            output = item
+        # print(output.items())
+        # return '<h1>Hello Default</h1>
+        quickEmbbedings = p1.create_embeddings(output)
+        recommendation = p1.query_embedding(quickEmbbedings, output)
+        
         queryDescription = request.form['query']
         embeddings = p1.create_embeddings(queryDescription);
         recommendations = p1.query_embedding(embeddings, queryDescription);
@@ -132,11 +148,13 @@ def contactportal():
 
 if __name__ == '__main__':
     p1 = aq.useLite()
+    testQuery = "this is a test"
     myDb = database()
     myDb.path = './data/sql.db'
     myDb.createTable('selectClass')
     myDb.createTable('describeClass')
     myDb.createTable('describeMajor')
+    myDb.createTable('userFeedback')
     myDb.createFormTable('contact')
     form = Form(myDb)
     app.run(debug=True)
