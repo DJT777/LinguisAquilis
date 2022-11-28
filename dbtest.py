@@ -28,9 +28,10 @@ sampleCourse =     {
 myDb = database()
 myDb.path = './data/sql.db'
 myDb.testCursor()
-myDb.dropTable('classlist')
-myDb.createTable('classlist')
-myDb.insertClass(mylist, 'classlist')
+# myDb.dropTable('classlist')
+# myDb.createTable('classlist')
+# myDb.insertClass(mylist, 'classlist')
+# myDb.insertSingleClass(mylist[0], 'classlist')
 # # myDb.closeConnection()
 # myDb.courseExists(sampleCourse, 'classlist')
 myDb.getAllTableData("classlist")

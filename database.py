@@ -115,7 +115,7 @@ class database:
             try:
                 # query = 'INSERT or IGNORE INTO classlist VALUES(?, ?, ?, ?);'
                 self.connectDatabase()
-                self.lock.acquire(True)
+                # self.lock.acquire(True)
                 courseId = course['course_dept'] + course['course_number']
                 self.mycursor.execute("INSERT or IGNORE INTO " + table + " VALUES(?, ?, ?, ?, ?);", (courseId, course['course_dept'], course['course_title'], course['course_number'], 1))
                 count += self.mycursor.rowcount
@@ -126,7 +126,7 @@ class database:
                 print('Failed to insert: - ', courseId)  
             finally:
                 self.closeConnection()
-                self.lock.release()
+                # self.lock.release()
         else:
             self.connectDatabase()
             self.insertSingleClass()
@@ -166,7 +166,7 @@ class database:
 
     def courseExists(self, course, table):
         try:
-            self.lock.acquire(True)
+            # self.lock.acquire(True)
             self.connectDatabase()
             courseId = course['course_dept'] + course['course_number'] 
             # query = 'SELECT * FROM ' + table + ' WHERE id = ' + courseId
@@ -177,14 +177,14 @@ class database:
             if count:
                 self.increment(courseId, table)
             else:
-                print('Add')
-                courseList = []
-                courseList.insert(course)
-                self.insertSingleClass(courseList, 'classlist')
+                print('Add Course ', courseId, ' does not exist. Adding now.')
+                # courseList = []
+                # courseList.insert(course)
+                self.insertSingleClass(course, 'classlist')
         except sqlite3.Error as error:
                 print('Error occured at exists - ', error)  
         finally:
-            self.lock.release()
+            # self.lock.release()
             self.closeConnection()
 
     def getTopCourses(self, table):

@@ -46,6 +46,7 @@ def findcourses():
                 user_description_embedding = p1.create_embeddings(user_description)
                 recommendation = p1.query_embedding(user_description_embedding, user_description)
                 myDb.insertClass(recommendation.recommendations_user_text, 'describeClass')
+                myDb.insertClass(recommendation.recommendations_user_text, 'classlist')
                 # for recommended_class in recommendation.recommendations_user_text:
                 #    myDb.courseExists(recommended_class, 'classlist')
                 return render_template('findcourses.html',dropdownList=dropdown_list,
@@ -56,6 +57,7 @@ def findcourses():
                 selectedClassEmbedding = p1.create_embeddings(selectedClass)
                 recommendation = p1.query_embedding(selectedClassEmbedding, selectedClass)
                 myDb.insertClass(recommendation.recommendations_user_text, 'selectClass')
+                myDb.insertClass(recommendation.recommendations_user_text, 'classlist')
                 for recommended_class in recommendation.recommendations_user_text:
                     myDb.courseExists(recommended_class, 'selectClass')
                 return render_template("findcourses.html", dropdownList=dropdown_list,
@@ -66,6 +68,7 @@ def findcourses():
                 selectedMajorEmbedding = p1.create_embeddings(majorDescription)
                 recommendation = p1.query_embedding(selectedMajorEmbedding, majorDescription)
                 myDb.insertClass(recommendation.recommendations_user_text, 'describeMajor')
+                myDb.insertClass(recommendation.recommendations_user_text, 'classlist')
                 # for recommended_class in recommendation.recommendations_user_text:
                 #    myDb.courseExists(recommended_class, 'classlist')
                 return_recommendation = []
@@ -87,6 +90,7 @@ def index():
         embeddings = p1.create_embeddings(queryDescription);
         recommendations = p1.query_embedding(embeddings, queryDescription);
         myDb.insertClass(recommendations.recommendations_user_text, "quickrecs");
+        myDb.insertClass(recommendations.recommendations_user_text, "classlist");
         return render_template("results.html", returnList = recommendations.recommendations_user_text)
     else:
         # get form data
@@ -137,6 +141,7 @@ if __name__ == '__main__':
     myDb.createTable('selectClass')
     myDb.createTable('describeClass')
     myDb.createTable('describeMajor')
+    myDb.createTable('classlist')
     myDb.createFormTable('contact')
     form = Form(myDb)
     app.run(debug=True)
