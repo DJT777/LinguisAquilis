@@ -32,7 +32,7 @@ select {
   font-size: 16px;
   border-radius: 5px;
 }
-i {
+.my-icon {
   margin-right: 8px;
 }
 .landing-image {

@@ -55,6 +55,7 @@ def findcourses():
                 user_description_embedding = p1.create_embeddings(user_description)
                 recommendation = p1.query_embedding(user_description_embedding, user_description)
                 myDb.insertClass(recommendation.recommendations_user_text, 'describeClass')
+                myDb.insertClass(recommendation.recommendations_user_text, 'classlist')
                 # for recommended_class in recommendation.recommendations_user_text:
                 #    myDb.courseExists(recommended_class, 'classlist')
                 return render_template('findcourses.html',dropdownList=dropdown_list,
@@ -65,6 +66,7 @@ def findcourses():
                 selectedClassEmbedding = p1.create_embeddings(selectedClass)
                 recommendation = p1.query_embedding(selectedClassEmbedding, selectedClass)
                 myDb.insertClass(recommendation.recommendations_user_text, 'selectClass')
+                myDb.insertClass(recommendation.recommendations_user_text, 'classlist')
                 for recommended_class in recommendation.recommendations_user_text:
                     myDb.courseExists(recommended_class, 'selectClass')
                 return render_template("findcourses.html", dropdownList=dropdown_list,
@@ -75,8 +77,8 @@ def findcourses():
                 selectedMajorEmbedding = p1.create_embeddings(majorDescription)
                 recommendation = p1.query_embedding(selectedMajorEmbedding, majorDescription)
                 myDb.insertClass(recommendation.recommendations_user_text, 'describeMajor')
-                for recommended_class in recommendation.recommendations_user_text:
-                    myDb.courseExists(recommended_class, 'classlist')
+                # for recommended_class in recommendation.recommendations_user_text:
+                #    myDb.courseExists(recommended_class, 'classlist')
                 return_recommendation = []
                 return_recommendation.append(major_dict[recommendation.recommended_major])
                 return render_template("findcourses.html", dropdownList=dropdown_list,
@@ -96,25 +98,12 @@ def index():
         index_course_list = json.load(index_course_list)
         return render_template('index.html', quickRec = index_course_list)
     if request.method == "POST":
-        if request.form["submitButton"] == "Find Courses":
-            return redirect(url_for("findcourses")) 
-        print("Request.Form: ")
-        # output = request.form.getlist('name[]')
-        output = request.form.to_dict(flat=False)
-        for item in output:
-            output = item
-        # print(output.items())
-        # return '<h1>Hello Default</h1>
-        quickEmbbedings = p1.create_embeddings(output)
-        recommendation = p1.query_embedding(quickEmbbedings, output)
-        
         queryDescription = request.form['query']
         embeddings = p1.create_embeddings(queryDescription);
         recommendations = p1.query_embedding(embeddings, queryDescription);
         myDb.insertClass(recommendations.recommendations_user_text, "quickrecs");
-        return render_template("results.html", returnList = recommendations.recommendations_user_text)
+        return render_template("results.html", returnList = recommendations.recommendations_user_text, userQuery=queryDescription)
     else:
-        # get form data
         return '<h1>Hello Default</h1>'
 
 @app.route("/insights", methods=['GET'])
@@ -139,9 +128,9 @@ def contact():
         form.phoneNumber = request.form['phone']
         form.contactChoice = request.form['contact_choice']
         form.notes = request.form['notes']
-        print(form.name)
         form.logForm()
         return render_template("contact.html")
+
 @app.route("/contactportal", methods=['GET','POST'])
 def contactportal():
     if request.method == "GET":
@@ -150,7 +139,6 @@ def contactportal():
         return render_template("contactportal.html", list=formList)
     if request.method == "POST":
         formId = request.form.get("id")
-        # print("Form Id is: ",formId)
         myDb.markFromComplete(formId);
         formList = myDb.executeDataQuery("contact")
         return render_template("contactportal.html", list=formList)

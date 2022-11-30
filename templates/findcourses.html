@@ -19,7 +19,7 @@ content %}
             type="submit"
             name="submitButton"
             value="Find Similar"
-            class="button is-danger"
+            class="button is-link"
           />
         </form>
       </section>
@@ -30,19 +30,20 @@ content %}
               >Or tell us about your interests</label
             >
             <input
-              class="input is-medium is-focused
+              class="input is-medium is-focused"
               type="text"
               id="userInputDescription"
               name="userInputDescription"
               placeholder="Type your interests"
+              maxlength="20"
               required
-            /><br />
+            />
             <input
               formmethod="POST"
               type="submit"
               name="submitButton"
               value="Submit User Description"
-              class="button is-danger"
+              class="button is-link"
             />
           </form>
         </div>
@@ -59,6 +60,7 @@ content %}
               id="userInputMajor"
               name="userInputMajor"
               placeholder="Type your interests"
+              maxlength="20"
               required
             /><br />
             <input
@@ -66,7 +68,7 @@ content %}
               name="submitButton"
               type="submit"
               value="Find a Major"
-              class="button is-danger"
+              class="button is-link"
             />
           </form>
         </div>

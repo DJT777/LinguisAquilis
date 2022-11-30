@@ -1,17 +1,46 @@
 {% extends "base.html" %} {% block title %} Results {% endblock %} {% block
 content %}
 
-<div class="container">
-  <div>
-    <h1 class="title is-3">Here are your quick results</h1>
-  </div>
-  <br />
-  {% for x in returnList %}
-  <div class="block box tags are-large">
-    <span class="tag is-primary"
-      >{{x['course_dept'] + x['course_number'] + " " + x['course_title']}}</span
-    >
-  </div>
-  {% endfor %}
-</div>
+<main>
+  <section class="section">
+    <div class="container">
+      <div>
+        {% if userQuery %}
+        <h1 class="subtitle is-3">
+          Here are your quick results for {{userQuery}}
+        </h1>
+        {%else%}
+        <h1 class="title is-3">Here are your quick results</h1>
+        {% endif %}
+      </div>
+      <br />
+      {% for x in returnList %}
+      <div class="block box tags are-large">
+        <span class="tag is-link"
+          >{{x['course_dept'] +" "+ x['course_number'] + " " +
+          x['course_title']}}</span
+        >
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  <section class="section main">
+    <div class="tile is-ancesor">
+      <div class="tile is-vertical-is-4">
+        <div class="tile">
+          <article class="tile is-child notification is-link">
+            <p class="title">Did not find what you were looking for?</p>
+            <p class="subtitle">Check Out the Bulletin</p>
+            <a href="http://usi.edu">
+              <button class="button is-medium is-responsive">
+                <i class="my-icon fa-solid fa-square-up-right"></i>
+                Bulletin
+              </button>
+            </a>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
 {% endblock %}}
