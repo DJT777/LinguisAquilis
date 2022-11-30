@@ -76,7 +76,7 @@ def findcourses():
                 for recommended_class in recommendation.recommendations_user_text:
                     myDb.courseExists(recommended_class, 'classlist')
                 return_recommendation = []
-                return_recommendation.append(major_dict[recommendation.recommended_major])
+                return_recommendation.append(recommendation.recommended_major + " - " + major_dict[recommendation.recommended_major])
                 return render_template("findcourses.html", dropdownList=dropdown_list,
                                         recommendedClasses =return_recommendation, containsData="False", containsDataMajor="True")
             if request.form['submitButton'] == "Submit Feedback":
