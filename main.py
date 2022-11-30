@@ -21,14 +21,22 @@ from form import Form
 app = Flask(__name__)
 class_json = open('data.json')
 class_data = json.load(class_json)
+major_dict = {"ACCT": "Accounting", "ADV":"Advetising", "AFRC":"Africana Studies", "AGBU":"Agricultural Business", "AHA":"Arts and Heritage Administration", "ANTH":"Anthropology", "ARAB":"Arabic Studies", "ART":"Art",
+              "ARTD":"Art & Design", "ARTE":"Art Education", "ARTH":"Art History", "ARTP":"Photography", "ASTR":"Astronomy", "BAN":"Business Analytics", "BCOM":"Business Communication", "BIOL":"Biology",
+              "BLAW":"Business Law", "BUAD":"Business Administration", "CE":"Civil Engineering", "CHEM":"Chemistry", "CHIN":"Chinese", "CIS":"Computer Information Systems", "CMST":"Communication Studies", "COMM":"Communications",
+              "CRIM": "Criminology", "CS":"Computer Science", "DMS":"Diagnostic Medical Sonography", "DSCI":"Data Science", "DTAS":"Dental Assisting", "DTHY":"Dental Hygiene", "DVT":"Diagnostic Vascular Sonography", "ECE":"Electrical Engineering",
+              "ECHO":"Echocardiography", "ECON": "Economics", "EDUC": "Education", "ENG":"English", "ENGR":"Engineering", "EXSC":"Exercise Science", "FIN":"Finance", "FREN":"French", "GENS":"Generla Studies", "GEOG":"Geography",
+              "GEOL":"Geology", "GERM":"German", "GERO":"Gerontology", "GLST":"Global Studies", "GNDR":"Gender Studies", "HA":"Health Administration", "HI":"Health Informatics and Information Management", "HIST":"History",
+              "HONS":"Honors", "HP":"Health Professions", "HUM":"Humanities", "IEP":"Intensive English Program", "IME":"Industrial and Manufacturing Engineering", "IPH":"Interprofessional Health", "JPN":"Japanese",
+              "JRN":"Journalism", "KIN":"Kinesiology", "LATN":"Latin", "LIBA":"Liberal Arts", "MATH":"Mathematics", "ME":"Mechanical Engineering", "MFET":"Manufacting Engineering Technology", "MKTG":"Marketing", "MNGT":"Management",
+              "MS":"Military Science", "MUS":"Music", "NURS":"Nursing", "NUTR":"Nutrition", "OTA":"Occupational Therapy Assistant", "PET":"Physical Education Teaching", "PH":"Public Health", "PHIL":"Philosophy", "PHYS":"Physics", "POLS":"Political Science",
+              "PRFS":"Professional Studies", "PRL":"Public Relations", "PSY":"Psychology", "RADT":"Radiologic Technology", "RELS":"Religious Studies", "REST":"Respiratory Therapy", "RTV":"Radio and Television", "SOC":"Sociology",
+              "SOCW":"Social Work", "SPAN":"Spanish", "SPTM":"Sports Management", "STAT":"Statistics", "STEM":"Science, Technology, Engineering, & Mathematics", "TECH":"Technology", "THTR":"Theatre", "UNIV":"University Studies",
+              "WLC":"World Languages and Cultures"}
 
 
 
-def filter_course(course):
-    if(course not in class_data):
-        return True
-    else:
-        return False
+
 
 @app.route("/findcourses", methods=['GET', 'POST', "PUT"])
 def findcourses():
@@ -67,14 +75,15 @@ def findcourses():
                 selectedMajorEmbedding = p1.create_embeddings(majorDescription)
                 recommendation = p1.query_embedding(selectedMajorEmbedding, majorDescription)
                 myDb.insertClass(recommendation.recommendations_user_text, 'describeMajor')
-                # for recommended_class in recommendation.recommendations_user_text:
-                #    myDb.courseExists(recommended_class, 'classlist')
+                for recommended_class in recommendation.recommendations_user_text:
+                    myDb.courseExists(recommended_class, 'classlist')
                 return_recommendation = []
-                return_recommendation.append(recommendation.recommended_major)
+                return_recommendation.append(major_dict[recommendation.recommended_major])
                 return render_template("findcourses.html", dropdownList=dropdown_list,
                                         recommendedClasses =return_recommendation, containsData="False", containsDataMajor="True")
             if request.form['submitButton'] == "Submit Feedback":
                 option = request.form['option']
+                print(p1.currentRecommendation.recommendations_user_text)
                 #TODO: INCLUDE THE BOOLEAN VARIABLE FOR HELPFULNESS OF RECOMMENDATION
                 myDb.insertClass(p1.currentRecommendation.recommendations_user_text, 'userFeedback')
                 return render_template('findcourses.html', mymethod="GET", dropdownList=dropdown_list,
