@@ -34,7 +34,7 @@ myDb.testCursor()
 # myDb.insertSingleClass(mylist[0], 'classlist')
 # # myDb.closeConnection()
 # myDb.courseExists(sampleCourse, 'classlist')
-myDb.getAllTableData("classlist")
+# myDb.getAllTableData("feedback")
 
 
 # # myDb.courseExists(sampleCourse, 'classlist')
@@ -58,6 +58,10 @@ myDb.getAllTableData("classlist")
 # myDb.createFormTable("contact")
 # myDb.getAllTableData("contact")
 
-
+#Feedback
+myDb.dropTable("feedback");
+myDb.createFeedbackTable("feedback")
+myDb.insertFeedback(mylist,"feedback", 0)
+myDb.getAllTableData("feedback")
 
         
