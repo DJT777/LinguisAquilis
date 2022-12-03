@@ -1,3 +1,4 @@
+import random
 import threading
 import sqlite3
 from course import Course
@@ -96,7 +97,7 @@ class database:
                 self.connectDatabase()
                 self.lock.acquire(True)
                 # query = '''CREATE TABLE IF NOT EXISTS classlist (id TEXT PRIMARY KEY, dept TEXT, title TEXT, number TEXT, score INT);'''
-                query = "CREATE TABLE IF NOT EXISTS " +table+ " (id TEXT PRIMARY KEY, dept TEXT, title TEXT, number TEXT, score INT);"
+                query = "CREATE TABLE IF NOT EXISTS " +table+ " (id INT, dept TEXT, title TEXT, number TEXT, score INT);"
                 self.mycursor.execute(query)
                 # self.mycursor.commit()
                 print('CreatedTable: ', table)
@@ -382,3 +383,62 @@ class database:
         else:
             self.connectDatabase()
             self.executeDataQuery()
+#Feedback section
+    def createFeedbackTable(self, table):
+        if self.sqlConnection:
+            try:
+                self.connectDatabase()
+                self.lock.acquire(True)
+                # query = '''CREATE TABLE IF NOT EXISTS classlist (id TEXT PRIMARY KEY, dept TEXT, title TEXT, number TEXT, score INT);'''
+                query = "CREATE TABLE IF NOT EXISTS " +table+ " (id INT, dept TEXT, title TEXT, number TEXT, feedback INT);"
+                self.mycursor.execute(query)
+                # self.mycursor.commit()
+                print('CreatedTable: ', table)
+            except sqlite3.Error as error:
+                print('Error occured at Creating Table ' + table+' - ', error)  
+            finally:
+                self.closeConnection()
+                self.lock.release()
+        else:
+            self.connectDatabase()
+            self.createFeedbackTable()
+    
+    def insertFeedback(self, courses, table,feedback):
+        if self.sqlConnection:
+            try:
+                # if(feedback == "1"):
+                #     feedback = 1
+                # else:
+                #     feedback = 0
+                self.lock.acquire(True)
+                self.connectDatabase()
+                courseId = random.randint(100000,999999)
+                for course in courses:
+                    self.insertSingleFeedback(course, table, feedback, courseId)
+            except sqlite3.Error as error:
+                print('Error occured at insertFeedback - ', error)  
+            finally:
+                self.lock.release()
+                self.closeConnection()
+        else:
+            self.connectDatabase()
+            self.insertFeedback()
+
+    def insertSingleFeedback(self, course, table, feedback, courseId):
+        count = 0
+        if self.sqlConnection:
+            try:
+                self.connectDatabase()
+                self.mycursor.execute("INSERT INTO " + table + " VALUES(?, ?, ?, ?, ?);", (courseId, course['course_dept'], course['course_title'], course['course_number'], feedback))
+                count += self.mycursor.rowcount
+                self.sqlConnection.commit()
+                print('Inserted: ',count, ' rows.')    
+            except sqlite3.Error as error:
+                courseId = course['course_dept'] + course['course_number']
+                print('Error occured at InsertSingleFeedback - ', error)  
+                print('Failed to insert: - ', courseId)  
+            finally:
+                self.closeConnection()
+        else:
+            self.connectDatabase()
+            self.insertSingleFeedback()
