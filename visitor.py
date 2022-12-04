@@ -40,15 +40,18 @@ class Visitor:
         try:
             self.database.createVisitorTable('visitors')
             self.database.insertVisitor(self.data,'visitors')
-            self.database.getVisitorInfo('visitors')
-        except:
-            print('Error Logging Visitor Data')  
+            # self.database.getVisitorInfo('visitors')
+        except Exception as e:
+            print('Error Logging Visitor Data: ', e)  
     
     def getInsightData(self):
         try:
             self.insightData = self.database.getVisitorCityInfo('Visitors')
             self.insightData['topCourse'] = self.database.getTopCourses('Classlist')
-        except:
-            print("Error Getting Data")
+            self.insightData['topMajor'] = self.database.getTopMajor('describeMajor')
+            # self.insightData['topCourse'] = "TopCourse"
+            # self.insightData['topMajor'] = "TopMajor"
+        except Exception as e:
+            print("Error Getting Data InsightData: ", e)
         finally:
             return self.insightData

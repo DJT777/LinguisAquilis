@@ -74,6 +74,7 @@ class database:
                 data = self.mycursor.fetchall()
                 if len(data) < 1:
                     print(table+' table is empty')
+                    return False;
                 else:
                     print('All data in table', table, '\n')
                     for row in data:
@@ -84,6 +85,7 @@ class database:
             except sqlite3.Error as error:
                 print('Error Getting Table ', table)
                 print('Error occured  - ', error)  
+                return False;
             finally:
                 self.lock.release()
                 self.closeConnection()
@@ -118,10 +120,11 @@ class database:
                 self.connectDatabase()
                 # self.lock.acquire(True)
                 courseId = course['course_dept'] + course['course_number']
+                courseId.strip(courseId)
                 self.mycursor.execute("INSERT or IGNORE INTO " + table + " VALUES(?, ?, ?, ?, ?);", (courseId, course['course_dept'], course['course_title'], course['course_number'], 1))
                 count += self.mycursor.rowcount
                 self.sqlConnection.commit()
-                print('Inserted: ',count, ' rows.')    
+                print('Inserted: ',count, ' rows at '+ table +',')    
             except sqlite3.Error as error:
                 print('Error occured at InsertSingleClass - ', error)  
                 print('Failed to insert: - ', courseId)  
@@ -212,6 +215,65 @@ class database:
             self.lock.release()
             self.closeConnection()
             return courseList   
+    def insertMajor(self, table, major):
+        count = 0
+        if self.sqlConnection:
+            try:
+                self.connectDatabase()
+                self.lock.acquire(True)
+                # self.mycursor.execute("INSERT INTO "+ table+" VALUES(?);", (major))
+                self.mycursor.execute("INSERT INTO "+ table+" (name) VALUES('"+major+"')")
+                print("INSERT INTO "+ table+" (name) VALUES('"+major+"')")
+                self.sqlConnection.commit()
+                count = self.mycursor.rowcount
+                print('Inserted: ',count, ' rows at '+ table +',')       
+            except sqlite3.Error as error:
+                print('Error occured at InsertMajorRecommendation - ', error)  
+            finally:
+                self.closeConnection()
+                self.lock.release()
+        else:
+            self.connectDatabase()
+            self.insertMajor()
+    def createMajorTable(self, table):
+        if self.sqlConnection:
+            try:
+                self.connectDatabase()
+                self.lock.acquire(True)
+                # query = '''CREATE TABLE IF NOT EXISTS classlist (id TEXT PRIMARY KEY, dept TEXT, title TEXT, number TEXT, score INT);'''
+                query = "CREATE TABLE IF NOT EXISTS " +table+ " (name TEXT);"
+                self.mycursor.execute(query)
+                # self.mycursor.commit()
+                print('CreatedTable: ', table)
+            except sqlite3.Error as error:
+                print('Error occured at Creating Table ' + table+' - ', error)  
+            finally:
+                self.closeConnection()
+                self.lock.release()
+        else:
+            self.connectDatabase()
+            self.createMajorTable()
+    def getTopMajor(self, table):
+        try:
+            topCourse = None
+            self.lock.acquire(True)
+            self.connectDatabase()
+            self.mycursor.execute('SELECT COUNT(name) as Number, name FROM describeMajor GROUP BY name ORDER BY Number DESC LIMIT 1;')
+            data = self.mycursor.fetchone()
+            if(data):
+               topCourse = data[1]
+               print("////////////////////////////")
+               print("Top couse is: ", topCourse)      
+               print("////////////////////////////")      
+            else:
+                print('Could not get top Major. Data Dump: ', len(data))    
+        except sqlite3.Error as error:
+            print('Error occured at Top Major - ', error)      
+        finally:
+            self.lock.release()
+            self.closeConnection()
+            return topCourse
+
     # Visitors Section
     def insertVisitor(self, data, table):
         count = 0
@@ -222,7 +284,7 @@ class database:
                 self.mycursor.execute('''INSERT INTO visitors VALUES(?, ?, ?, ?, ?);''', (data["city"],data["region"],data["country"],data["postal"],data["timezone"]))
                 self.sqlConnection.commit()
                 count = self.mycursor.rowcount
-                print('Inserted: ',count, ' rows.')    
+                print('Inserted: ',count, ' rows at '+ table +'.')    
             except sqlite3.Error as error:
                 print('Error occured at InsertVisitor - ', error)  
             finally:
@@ -335,7 +397,7 @@ class database:
                 self.mycursor.execute('''INSERT INTO contact VALUES(?,?,?,?,?,?,?,?);''', (form.id,form.name,form.email,form.phoneNumber,form.contactChoice,form.notes,form.timeStamp,form.completed))
                 self.sqlConnection.commit()
                 count = self.mycursor.rowcount
-                print('Inserted: ',count, ' rows.')
+                print('Inserted: ',count, ' rows at contact.')    
             except sqlite3.Error as error:
                 print('Error occured at insert contact form - ', error)  
             finally:
@@ -432,7 +494,7 @@ class database:
                 self.mycursor.execute("INSERT INTO " + table + " VALUES(?, ?, ?, ?, ?);", (courseId, course['course_dept'], course['course_title'], course['course_number'], feedback))
                 count += self.mycursor.rowcount
                 self.sqlConnection.commit()
-                print('Inserted: ',count, ' rows.')    
+                print('Inserted: ',count, ' rows at '+ table +',')    
             except sqlite3.Error as error:
                 courseId = course['course_dept'] + course['course_number']
                 print('Error occured at InsertSingleFeedback - ', error)  
