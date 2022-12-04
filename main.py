@@ -72,15 +72,17 @@ def findcourses():
                 return render_template("findcourses.html", dropdownList=dropdown_list,
                                         recommendedClasses = recommendation.recommendations_user_text, containsData="True", containsDataMajor="False")
             if request.form['submitButton'] == "Find a Major":
-                print("MAJOR INTERESTS:" + request.form['userInputMajor'])
+                # print("MAJOR INTERESTS:" + request.form['userInputMajor'])
                 majorDescription = request.form['userInputMajor']
                 selectedMajorEmbedding = p1.create_embeddings(majorDescription)
                 recommendation = p1.query_embedding(selectedMajorEmbedding, majorDescription)
-                myDb.insertClass(recommendation.recommendations_user_text, 'describeMajor')
+                # myDb.insertMajor(recommendation.recommendations_user_text[0], 'describeMajor')
                 # for recommended_class in recommendation.recommendations_user_text:
                 #    myDb.courseExists(recommended_class, 'classlist')
                 return_recommendation = []
-                return_recommendation.append(recommendation.recommended_major + " - " + major_dict[recommendation.recommended_major])
+                return_recommendation.append(major_dict[recommendation.recommended_major])
+                # print("Recommendation: ",return_recommendation);
+                myDb.insertMajor('describeMajor',return_recommendation.recommended_major)
                 return render_template("findcourses.html", dropdownList=dropdown_list,
                                         recommendedClasses =return_recommendation, containsData="False", containsDataMajor="True")
             if request.form['submitButton'] == "Submit Feedback":
@@ -108,10 +110,15 @@ def index():
 
 @app.route("/insights", methods=['GET'])
 def insights():
-    myDb = database()
-    visitor = Visitor(myDb)
     insightsData = visitor.getInsightData()
     return render_template("insights.html", insight=insightsData)
+    # countainsData = False;
+    # if(myDb.getAllTableData('describeMajor')):
+    #     insightsData = visitor.getInsightData()
+    #     print(insightsData)
+    #     return render_template("insights.html", insight=insightsData)
+    # else:
+    #     return render_template("index.html")
 
 @app.route("/about", methods=['GET'])
 def about():
@@ -145,13 +152,16 @@ def contactportal():
 
 if __name__ == '__main__':
     p1 = aq.useLite()
-    testQuery = "this is a test"
     myDb = database()
     myDb.path = './data/sql.db'
     myDb.createTable('selectClass')
     myDb.createTable('describeClass')
-    myDb.createTable('describeMajor')
+    myDb.createMajorTable('describeMajor')
     myDb.createTable('userFeedback')
+    myDb.createTable('classlist')
+    myDb.createVisitorTable("visitors")
+    visitor = Visitor(myDb)
+    visitor.logVisitor()
     myDb.createFormTable('contact')
     form = Form(myDb)
     app.run(debug=True)

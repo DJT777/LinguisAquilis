@@ -1,14 +1,6 @@
 {% extends "navbase.html" %} {% block title %} Contact Inquires {% endblock %}
 {% block content %}
 <main>
-  <section class="section">
-    <div class="columns is-mobile is-centered">
-      <div class="column is-half">
-        <h1 class="title is-4">LinguisAquilis Insights</h1>
-        <p class="subtitle is-5">Lorem ipsum dolor sit amet consectetur.</p>
-      </div>
-    </div>
-  </section>
   <section class="hero is-small is-link">
     <div class="hero-body">
       <p class="title">Explore Insights</p>
@@ -22,9 +14,11 @@
       <div class="column is-4">
         <div class="card">
           <div class="card-content">
-            {% if insight %}
+            {% if insight['topCourse'] %} 
             <p class="title">{{ insight['topCourse'][0].description }}</p>
-            {% endif %}
+            {% else %}
+            <p class="title">No Data</p>
+            {% endif%}
             <p class="subtitle">Is the most popular course among users.</p>
           </div>
           <footer class="card-footer">
@@ -46,7 +40,6 @@
       <div class="column is-4">
         <div class="box">
           <h1 class="title is-3">Top 5 Courses</h1>
-          <!-- <p class="subtitle is-5">Lorem ipsum dolor sit.</p> -->
           <table class="table">
             <thead>
               <tr>
@@ -56,13 +49,19 @@
               </tr>
             </thead>
             <tbody>
-              {% if insight %} {% for x in insight['topCourse'] %}
+              {% if insight['topCourse'] %} {% for x in insight['topCourse'] %}
               <tr>
                 <td>{{x.name}}</td>
                 <td>{{x.code}}</td>
                 <td>{{x.description}}</td>
               </tr>
-              {% endfor%} {% endif %}
+              {% endfor%} {% else %}
+              <tr>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+              </tr>
+              {% endif %}
             </tbody>
             <tfoot>
               <tr>
@@ -78,7 +77,12 @@
         <div class="class is-parent">
           <div class="title is-child notification is-link">
             <div class="content">
-              <h1 class="title">Computer Science</h1>
+                {% if insight['topMajor'] %} 
+                <h1 class="title">{{insight['topMajor']}}</h1> 
+                {% else %}
+                <h1 class="title">No Data</h1>
+                {% endif %}
+              </h1>
               <p class="subtitle">Top recommended major.</p>
               <div class="content"></div>
             </div>
