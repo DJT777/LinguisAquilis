@@ -21,7 +21,7 @@ from form import Form
 app = Flask(__name__)
 class_json = open('data.json')
 class_data = json.load(class_json)
-major_dict = {"ACCT": "Accounting", "ADV":"Advetising", "AFRC":"Africana Studies", "AGBU":"Agricultural Business", "AHA":"Arts and Heritage Administration", "ANTH":"Anthropology", "ARAB":"Arabic Studies", "ART":"Art",
+major_dict = {"ACCT": "Accounting", "ADV":"Advertising", "AFRC":"Africana Studies", "AGBU":"Agricultural Business", "AHA":"Arts and Heritage Administration", "ANTH":"Anthropology", "ARAB":"Arabic Studies", "ART":"Art",
               "ARTD":"Art & Design", "ARTE":"Art Education", "ARTH":"Art History", "ARTP":"Photography", "ASTR":"Astronomy", "BAN":"Business Analytics", "BCOM":"Business Communication", "BIOL":"Biology",
               "BLAW":"Business Law", "BUAD":"Business Administration", "CE":"Civil Engineering", "CHEM":"Chemistry", "CHIN":"Chinese", "CIS":"Computer Information Systems", "CMST":"Communication Studies", "COMM":"Communications",
               "CRIM": "Criminology", "CS":"Computer Science", "DMS":"Diagnostic Medical Sonography", "DSCI":"Data Science", "DTAS":"Dental Assisting", "DTHY":"Dental Hygiene", "DVT":"Diagnostic Vascular Sonography", "ECE":"Electrical Engineering",
@@ -80,16 +80,15 @@ def findcourses():
                 # for recommended_class in recommendation.recommendations_user_text:
                 #    myDb.courseExists(recommended_class, 'classlist')
                 return_recommendation = []
-                return_recommendation.append(major_dict[recommendation.recommended_major])
+                return_recommendation.append(recommendation.recommended_major + " - " + major_dict[recommendation.recommended_major])
                 # print("Recommendation: ",return_recommendation);
-                myDb.insertMajor('describeMajor',return_recommendation.recommended_major)
+                myDb.insertMajor('describeMajor', major_dict[recommendation.recommended_major])
                 return render_template("findcourses.html", dropdownList=dropdown_list,
                                         recommendedClasses =return_recommendation, containsData="False", containsDataMajor="True")
             if request.form['submitButton'] == "Submit Feedback":
                 option = request.form['option']
                 print(p1.currentRecommendation.recommendations_user_text)
-                #TODO: INCLUDE THE BOOLEAN VARIABLE FOR HELPFULNESS OF RECOMMENDATION
-                myDb.insertClass(p1.currentRecommendation.recommendations_user_text, 'userFeedback')
+                myDb.insertFeedback(p1.currentRecommendation.recommendations_user_text, 'userFeedback', option)
                 return render_template('findcourses.html', mymethod="GET", dropdownList=dropdown_list,
                                        recommendedClasses=dropdown_list, containsData="False")
 
@@ -165,6 +164,3 @@ if __name__ == '__main__':
     myDb.createFormTable('contact')
     form = Form(myDb)
     app.run(debug=True)
-
-def embed(input):
-    return model(input)
