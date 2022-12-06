@@ -1,24 +1,19 @@
-import this
 import requests
 from database import database
 
 class Visitor:
-    city = ''
-    region = ''
-    country = ''
-    zip = ''
-    timezone = ''
     data = None
     database = None
     insightData = None
 
+    #Constructor automatically gets user data
     def __init__(self, database) -> None:
         self.data = self.getData()
         self.database = database
         self.database.path = './data/sql.db'
-        # self.printData()
         pass
 
+    #Prints data
     def printData(self):
         print(f'City: {self.data["city"]}')
         print(f'Region: {self.data["region"]}')
@@ -28,19 +23,18 @@ class Visitor:
 
     def getData(self):
         try:
+            #This endpoint returns the data
             data = requests.get('https://ipinfo.io/json')
+            #Format data as JSON
             data = data.json()
-            # print(f'You are located in {data["city"]}')
             return data
-        except:
-            print('Error Getting Visitor Data')
+        except Exception as e:
+            print('Error Getting Visitor Data - ', e)
             return False    
     
     def logVisitor(self):
         try:
-            self.database.createVisitorTable('visitors')
             self.database.insertVisitor(self.data,'visitors')
-            # self.database.getVisitorInfo('visitors')
         except Exception as e:
             print('Error Logging Visitor Data: ', e)  
     
@@ -49,8 +43,6 @@ class Visitor:
             self.insightData = self.database.getVisitorCityInfo('Visitors')
             self.insightData['topCourse'] = self.database.getTopCourses('Classlist')
             self.insightData['topMajor'] = self.database.getTopMajor('describeMajor')
-            # self.insightData['topCourse'] = "TopCourse"
-            # self.insightData['topMajor'] = "TopMajor"
         except Exception as e:
             print("Error Getting Data InsightData: ", e)
         finally:

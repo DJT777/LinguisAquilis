@@ -6,7 +6,7 @@
       <section class="hero is-link">
         <div class="hero-body">
           <p class="title">Contact Inquires</p>
-          <p class="subtitle">Lorem ipsum dolor sit amet.</p>
+          <p class="subtitle">See and manage contact inquires.</p>
         </div>
       </section>
     </div>
@@ -51,7 +51,13 @@
             </td>
             {% endif %}
           </tr>
-          {% endfor%} {% endif %}
+          {% endfor%} {% else %}
+          <th>No Data</th>
+          <th>No Data</th>
+          <th>No Data</th>
+          <th>No Data</th>
+          <th>No Data</th>
+          {% endif %}
         </tbody>
         <tfoot>
           <th><abbr title="Name">Name</abbr></th>

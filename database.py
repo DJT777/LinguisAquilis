@@ -9,15 +9,28 @@ class database:
     mycursor = None
     sqlConnection = None
     lock = None
+    #Class Constructor
     def __init__(self):
         try:
             self.sqlConnection = sqlite3.connect(self.path, check_same_thread=False)
             cursor = self.sqlConnection.cursor()
             self.mycursor = cursor
             self.lock = threading.Lock()
-            # self.createTable('classlist')
         except sqlite3.Error as error:
             print('Error occured Init - ', error)
+    #Initializing the database
+    def initDatabase(self):
+        try:
+            self.path = './data/sql.db'
+            self.createTable('selectClass')
+            self.createTable('describeClass')
+            self.createMajorTable('describeMajor')
+            self.createTable('userFeedback')
+            self.createTable('classlist')
+            self.createVisitorTable("visitors")
+            self.createFormTable('contact')
+        except Exception as e:
+            print("Error initializing database - ", e)
 
     def testCursor(self):
         if self.sqlConnection:
@@ -69,7 +82,6 @@ class database:
                 self.lock.acquire(True)
                 self.connectDatabase()
                 query = "SELECT * FROM " +table
-                # query = "SELECT * FROM contact" 
                 self.mycursor.execute(query)
                 data = self.mycursor.fetchall()
                 if len(data) < 1:
@@ -98,10 +110,8 @@ class database:
             try:
                 self.connectDatabase()
                 self.lock.acquire(True)
-                # query = '''CREATE TABLE IF NOT EXISTS classlist (id TEXT PRIMARY KEY, dept TEXT, title TEXT, number TEXT, score INT);'''
                 query = "CREATE TABLE IF NOT EXISTS " +table+ " (id INT, dept TEXT, title TEXT, number TEXT, score INT);"
                 self.mycursor.execute(query)
-                # self.mycursor.commit()
                 print('CreatedTable: ', table)
             except sqlite3.Error as error:
                 print('Error occured at Creating Table ' + table+' - ', error)  
@@ -116,9 +126,7 @@ class database:
         count = 0
         if self.sqlConnection:
             try:
-                # query = 'INSERT or IGNORE INTO classlist VALUES(?, ?, ?, ?);'
                 self.connectDatabase()
-                # self.lock.acquire(True)
                 courseId = course['course_dept'] + course['course_number']
                 courseId.strip(courseId)
                 self.mycursor.execute("INSERT or IGNORE INTO " + table + " VALUES(?, ?, ?, ?, ?);", (courseId, course['course_dept'], course['course_title'], course['course_number'], 1))
@@ -130,7 +138,6 @@ class database:
                 print('Failed to insert: - ', courseId)  
             finally:
                 self.closeConnection()
-                # self.lock.release()
         else:
             self.connectDatabase()
             self.insertSingleClass()
@@ -138,16 +145,13 @@ class database:
     def increment(self, courseId, table):
         if self.sqlConnection:
             try:
-                # self.lock.acquire(True)
                 self.connectDatabase()
-                # print('Course ID: ', courseId)
                 self.mycursor.execute("UPDATE " + table +" SET score = score + 1 WHERE id = ? ",(courseId,))
                 self.sqlConnection.commit()
                 print('Commited')
             except sqlite3.Error as error:
                 print('Error occured at Increment - ', error) 
             finally:
-                # self.lock.release()
                 self.closeConnection()
         else:
             print('Cannot increment')
@@ -170,11 +174,8 @@ class database:
 
     def courseExists(self, course, table):
         try:
-            # self.lock.acquire(True)
             self.connectDatabase()
             courseId = course['course_dept'] + course['course_number'] 
-            # query = 'SELECT * FROM ' + table + ' WHERE id = ' + courseId
-            # courseId = "'" + courseId + "'"
             self.mycursor.execute("SELECT * FROM "+ table +" WHERE id = ?", (courseId,))
             count = self.mycursor.fetchone() is not None
             print('Id: ',courseId , ' is ' , count)
@@ -182,13 +183,10 @@ class database:
                 self.increment(courseId, table)
             else:
                 print('Add Course ', courseId, ' does not exist. Adding now.')
-                # courseList = []
-                # courseList.insert(course)
                 self.insertSingleClass(course, 'classlist')
         except sqlite3.Error as error:
                 print('Error occured at exists - ', error)  
         finally:
-            # self.lock.release()
             self.closeConnection()
 
     def getTopCourses(self, table):
@@ -215,15 +213,14 @@ class database:
             self.lock.release()
             self.closeConnection()
             return courseList   
+    
     def insertMajor(self, table, major):
         count = 0
         if self.sqlConnection:
             try:
                 self.connectDatabase()
                 self.lock.acquire(True)
-                # self.mycursor.execute("INSERT INTO "+ table+" VALUES(?);", (major))
                 self.mycursor.execute("INSERT INTO "+ table+" (name) VALUES('"+major+"')")
-                print("INSERT INTO "+ table+" (name) VALUES('"+major+"')")
                 self.sqlConnection.commit()
                 count = self.mycursor.rowcount
                 print('Inserted: ',count, ' rows at '+ table +',')       
@@ -235,6 +232,7 @@ class database:
         else:
             self.connectDatabase()
             self.insertMajor()
+    
     def createMajorTable(self, table):
         if self.sqlConnection:
             try:
@@ -253,6 +251,7 @@ class database:
         else:
             self.connectDatabase()
             self.createMajorTable()
+    
     def getTopMajor(self, table):
         try:
             topCourse = None
@@ -468,10 +467,6 @@ class database:
     def insertFeedback(self, courses, table,feedback):
         if self.sqlConnection:
             try:
-                # if(feedback == "1"):
-                #     feedback = 1
-                # else:
-                #     feedback = 0
                 self.lock.acquire(True)
                 self.connectDatabase()
                 courseId = random.randint(100000,999999)
