@@ -27,4 +27,11 @@
     license: 'free',
     location: 'All Website',
   },
+  {
+    image: 'Error Icon',
+    url: 'https://www.flaticon.com/free-icons/error',
+    author: 'Freepik/Faticon',
+    license: 'free',
+    location: 'Error Page',
+  },
 ];

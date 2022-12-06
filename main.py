@@ -35,9 +35,6 @@ major_dict = {"ACCT": "Accounting", "ADV":"Advertising", "AFRC":"Africana Studie
               "WLC":"World Languages and Cultures"}
 
 
-
-
-
 @app.route("/findcourses", methods=['GET', 'POST', "PUT"])
 def findcourses():
     dropdown_list = []
@@ -45,7 +42,6 @@ def findcourses():
             if x['course_title'] not in dropdown_list:
                     dropdown_list.append(x['course_dept'].strip() + " " + x['course_number'].strip() +" " + x['course_title'].strip())
     if request.method == "GET":
-        #filteredData = filter(filter_course, class_data_copy)
         return render_template('findcourses.html', mymethod="GET",dropdownList=dropdown_list,
                             recommendedClasses =dropdown_list, containsData="False")
     if request.method == "POST":
@@ -56,10 +52,9 @@ def findcourses():
                 recommendation = p1.query_embedding(user_description_embedding, user_description)
                 myDb.insertClass(recommendation.recommendations_user_text, 'describeClass')
                 myDb.insertClass(recommendation.recommendations_user_text, 'classlist')
-                # for recommended_class in recommendation.recommendations_user_text:
-                #    myDb.courseExists(recommended_class, 'classlist')
                 return render_template('findcourses.html',dropdownList=dropdown_list,
-                                        recommendedClasses=recommendation.recommendations_user_text, containsData="True", containsDataMajor="False")
+                                        recommendedClasses=recommendation.recommendations_user_text, containsData="True", 
+                                        containsDataMajor="False", userQuery = user_description)
             if request.form['submitButton'] == "Find Similar":
                 print("SELECTED CLASS:" + request.form['selectClass'])
                 selectedClass = request.form['selectClass']
@@ -70,27 +65,29 @@ def findcourses():
                 for recommended_class in recommendation.recommendations_user_text:
                     myDb.courseExists(recommended_class, 'selectClass')
                 return render_template("findcourses.html", dropdownList=dropdown_list,
-                                        recommendedClasses = recommendation.recommendations_user_text, containsData="True", containsDataMajor="False")
+                                        recommendedClasses = recommendation.recommendations_user_text, containsData="True", 
+                                        containsDataMajor="False",userQuery = selectedClass)
             if request.form['submitButton'] == "Find a Major":
-                # print("MAJOR INTERESTS:" + request.form['userInputMajor'])
+                print("MAJOR INTERESTS:" + request.form['userInputMajor'])
                 majorDescription = request.form['userInputMajor']
                 selectedMajorEmbedding = p1.create_embeddings(majorDescription)
                 recommendation = p1.query_embedding(selectedMajorEmbedding, majorDescription)
-                # myDb.insertMajor(recommendation.recommendations_user_text[0], 'describeMajor')
-                # for recommended_class in recommendation.recommendations_user_text:
-                #    myDb.courseExists(recommended_class, 'classlist')
                 return_recommendation = []
+
                 return_recommendation.append(recommendation.recommended_major + " - " + major_dict[recommendation.recommended_major])
                 # print("Recommendation: ",return_recommendation);
                 myDb.insertMajor('describeMajor', major_dict[recommendation.recommended_major])
                 return render_template("findcourses.html", dropdownList=dropdown_list,
-                                        recommendedClasses =return_recommendation, containsData="False", containsDataMajor="True")
+                                        recommendedClasses =return_recommendation, containsData="False", containsDataMajor="True",
+                                        userQuery = majorDescription)
             if request.form['submitButton'] == "Submit Feedback":
                 option = request.form['option']
                 print(p1.currentRecommendation.recommendations_user_text)
                 myDb.insertFeedback(p1.currentRecommendation.recommendations_user_text, 'userFeedback', option)
                 return render_template('findcourses.html', mymethod="GET", dropdownList=dropdown_list,
                                        recommendedClasses=dropdown_list, containsData="False")
+    else:
+        return render_template("error.html")
 
 @app.route('/', methods=['GET', 'POST', 'PUT'])
 def index():
@@ -105,30 +102,26 @@ def index():
         myDb.insertClass(recommendations.recommendations_user_text, "quickrecs");
         return render_template("results.html", returnList = recommendations.recommendations_user_text, userQuery=queryDescription)
     else:
-        return '<h1>Hello Default</h1>'
+        return render_template("error.html")
 
 @app.route("/insights", methods=['GET'])
 def insights():
     insightsData = visitor.getInsightData()
     return render_template("insights.html", insight=insightsData)
-    # countainsData = False;
-    # if(myDb.getAllTableData('describeMajor')):
-    #     insightsData = visitor.getInsightData()
-    #     print(insightsData)
-    #     return render_template("insights.html", insight=insightsData)
-    # else:
-    #     return render_template("index.html")
 
 @app.route("/about", methods=['GET'])
 def about():
     return render_template("about.html")
+
+@app.route("/error", methods=['GET'])
+def error():
+    return render_template("error.html")
 
 @app.route("/contact", methods=['GET','POST'])
 def contact():
     if request.method == "GET":
         return render_template("contact.html")
     if request.method == "POST":
-        # myDb = database()
         form.name = request.form['name']
         form.email = request.form['email']
         form.phoneNumber = request.form['phone']
@@ -141,7 +134,6 @@ def contact():
 def contactportal():
     if request.method == "GET":
         formList = myDb.executeDataQuery("contact")
-        print('From table: ', len(formList))
         return render_template("contactportal.html", list=formList)
     if request.method == "POST":
         formId = request.form.get("id")
@@ -152,15 +144,8 @@ def contactportal():
 if __name__ == '__main__':
     p1 = aq.useLite()
     myDb = database()
-    myDb.path = './data/sql.db'
-    myDb.createTable('selectClass')
-    myDb.createTable('describeClass')
-    myDb.createMajorTable('describeMajor')
-    myDb.createTable('userFeedback')
-    myDb.createTable('classlist')
-    myDb.createVisitorTable("visitors")
+    myDb.initDatabase()
     visitor = Visitor(myDb)
     visitor.logVisitor()
-    myDb.createFormTable('contact')
     form = Form(myDb)
     app.run(debug=True)

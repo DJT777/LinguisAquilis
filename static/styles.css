@@ -1,3 +1,6 @@
+html {
+  scroll-behavior: smooth;
+}
 main {
   font-family: Montserrat, sans-serif;
 }
@@ -6,12 +9,13 @@ main {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-  height: 800px;
+  height: 880px;
   width: 100%;
   margin-top: 10px;
 }
 .find-body {
   background-image: url('/static/images/wingsgray.jpg');
+  background-repeat: repeat-y;
   height: 100%;
   margin-top: 10px;
 }
@@ -57,12 +61,6 @@ select {
 .user-input {
   width: 100%;
 }
-/* input[type='text'] {
-  padding: 1px 10px;
-  font-size: 8px;
-  width: 700px;
-} */
-
 /*New*/
 .button {
   margin: 10px;
@@ -125,9 +123,6 @@ li a.active {
 }
 #results-menu {
   float: left;
-}
-.column {
-  border: 1px solid red;
 }
 .nav-bar {
   height: max-content;

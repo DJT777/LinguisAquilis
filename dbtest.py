@@ -26,8 +26,9 @@ sampleCourse =     {
 }
 
 myDb = database()
+myDb.initDatabase()
 myDb.path = './data/sql.db'
-myDb.testCursor()
+# myDb.testCursor()
 # myDb.dropTable('classlist')
 # myDb.createTable('classlist')
 # myDb.insertClass(mylist, 'classlist')
@@ -42,13 +43,33 @@ myDb.testCursor()
 # myDb.getTopCourses('classlist')
 
 # visitor = Visitor(myDb)
-# form = Form(myDb)
-# form.name = "Catalina Virgina"
-# form.email = "user@gmail.com"
-# form.phoneNumber ="812 322 3221"
-# form.notes = "I need this on my campus!"
+# visitor.getData()
+# visitor.printData()
+form = Form(myDb)
+# form.name = "Patrick Warburton"
+# form.email = "user5@gmail.com"
+# form.phoneNumber ="720 445 2341"
+# form.notes = "I would like more information about this"
 # form.contactChoice = "Email"
 # form.logForm()
+form.name = "Marcos Smith"
+form.email = "user2@gmail.com"
+form.phoneNumber ="812 322 3221"
+form.notes = "This helped so much!"
+form.contactChoice = "Email"
+form.logForm()
+form.name = "Petter Griffin"
+form.email = "user3@gmail.com"
+form.phoneNumber ="812 322 3221"
+form.notes = "How did you guys do this?"
+form.contactChoice = "Phone"
+form.logForm()
+form.name = "Austin Powers"
+form.email = "user4@gmail.com"
+form.phoneNumber ="812 322 3221"
+form.notes = "This is what I have been waiting for!"
+form.contactChoice = "Email"
+form.logForm()
 # myDb.markFromComplete("475");
 #myDb.insertForm(form)
 # myDb.getVisitorCityInfo('Visitors')
@@ -59,9 +80,9 @@ myDb.testCursor()
 # myDb.getAllTableData("contact")
 
 #Feedback
-myDb.dropTable("feedback");
-myDb.createFeedbackTable("feedback")
-myDb.insertFeedback(mylist,"feedback", 0)
-myDb.getAllTableData("feedback")
+# myDb.dropTable("feedback");
+# myDb.createFeedbackTable("feedback")
+# myDb.insertFeedback(mylist,"feedback", 0)
+# myDb.getAllTableData("feedback")
 
         

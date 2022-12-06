@@ -50,8 +50,6 @@ class Recommendation:
         #self.helloWorld = "Hello World"
         #print(self.helloWorld)
 
-
-
 class useLite:
     name = "Hello World"
     def filter_course(course):

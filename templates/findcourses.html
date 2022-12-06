@@ -36,6 +36,7 @@ content %}
               name="userInputDescription"
               placeholder="Type your interests"
               maxlength="150"
+
               required
             />
             <input
@@ -78,10 +79,14 @@ content %}
       <form method="POST">
       {%if containsData == "True" %}
       <div id="results-menu" class="box block">
-        <h1>Results</h1>
+        {% if userQuery %}
+        <h1 class="subtitle is-4">Results for {{userQuery}}</h1>
+        {% else %}
+          <h1 class="subtitle is-4">Results</h1>
+        {% endif %}
         <div class="tags">
           {% for x in recommendedClasses %}
-          <span class="tag is-large is-info"
+          <span class="tag is-large is-link"
             >{{x['course_dept'] + " " + x['course_number'] + " " +
             x['course_title']}}</span
           >
@@ -94,15 +99,19 @@ content %}
               name="submitButton"
               type="submit"
               value="Submit Feedback"
-              class="button is-danger"
+              class="button is-link"
             />
       </div>
       {% endif %} {%if containsDataMajor == "True" %}
       <div id="results-menu2" class="box block">
-        <h1>Results</h1>
+        {% if userQuery %}
+        <h1 class="subtitle is-4">Results for {{userQuery}}</h1>
+        {% else %}
+          <h1 class="subtitle is-4">Results</h1>
+        {% endif %}
         <div class="tags">
           {% for x in recommendedClasses %}
-          <span class="tag is-large is-info">{{x}}</span>
+          <span class="tag is-large is-link">{{x}}</span>
           {% endfor %}
         </div>
       </div>
