@@ -1,0 +1,203 @@
+    AAS - Asian American Studies
+    ABE - Agricultural and Biological Eng
+    ACCY - Accountancy
+    ACE - Agr & Consumer Economics
+    ACES - Agr, Consumer, & Env Sciences
+    ADV - Advertising
+    AE - Aerospace Engineering
+    AFAS - Air Force Aerospace Studies
+    AFRO - African American Studies
+    AFST - African Studies
+    AGCM - Agricultural Communications
+    AGED - Agricultural Education
+    AHS - Applied Health Sci Courses
+    AIS - American Indian Studies
+    ALEC - Agricultural Leadership, Education, & Communications Program
+    ANSC - Animal Sciences
+    ANTH - Anthropology
+    ARAB - Arabic
+    ARCH - Architecture
+    ART - Art
+    ARTD - Art--Design
+    ARTE - Art--Education
+    ARTF - Art--Foundation
+    ARTH - Art--History
+    ARTJ - Japan House
+    ARTS - Art--Studio
+    ASRM - Actuarial Science & Risk Management
+    ASST - Asian Studies
+    ASTR - Astronomy
+    ATMS - Atmospheric Sciences
+    BADM - Business Administration
+    BASQ - Basque
+    BCOG - Brain and Cognitive Science
+    BCS - Bosnian-Croatian-Serbian
+    BDI - Business Data & Innovation
+    BIOC - Biochemistry
+    BIOE - Bioengineering
+    BIOL - Biology
+    BIOP - Biophysics
+    BSE - Biomedical Sciences and Engineering
+    BTW - Business and Technical Writing
+    BULG - Bulgarian
+    BUS - Business
+    CAS - Center for Advanced Study
+    CATL - Catalan
+    CB - Comparative Biosciences
+    CDB - Cell and Developmental Biology
+    CEE - Civil and Environ Engineering
+    CHBE - Chemical and Biomolecular Engineering
+    CHEM - Chemistry
+    CHIN - Chinese
+    CHLH - Community Health
+    CHP - Campus Honors Program
+    CIC - Committee on Inst Cooperation
+    CI - Curriculum and Instruction
+    CLCV - Classical Civilization
+    CLE - Clinical Sciences and Engineering
+    CMN - Communication
+    CPSC - Crop Sciences
+    CS - Computer Science
+    CSE - Computational Science and Engineering
+    CW - Creative Writing
+    CWL - Comparative & World Literature
+    CZCH - Czech
+    DANC - Dance
+    DTX - Human-Centered Design & Design Thinking
+    EALC - East Asian Languages & Cultures
+    ECE - Electrical and Computer Engineering
+    ECON - Economics
+    EDPR - Educational Practice
+    EDUC - Education
+    EIL - English as an Intl Language
+    ENG - Engineering
+    ENGL - English
+    ENSU - Environmental Sustainability
+    ENT - Entomology
+    ENVS - Environmental Studies
+    EOL - Educ Organization & Leadership
+    EPOL - Ed Policy, Org & Ldership
+    EPS - Educational Policy Studies
+    EPSY - Educational Psychology
+    ERAM - Education Research and Methods
+    ESE - Earth, Society, & Environment
+    ESL - English as a Second Language
+    ETMA- Engineering Technology & Management for Agricultural Systems
+    EURO - European Union Studies
+    FAA - Fine and Applied Arts
+    FIN - Finance
+    FLTE - Foreign Language Teacher Education
+    FR - French
+    FSHN - Food Science & Human Nutrition
+    GC - Graduate College
+    GEOL - Geology
+    GER - German
+    GGIS - Geography & Geographic Information Science
+    GLBL - Global Studies
+    GMC - Germanic
+    GRK - Greek
+    GRKM - Modern Greek
+    GSD - Game Studies and Design
+    GS - General Studies
+    GWS - Gender and Women's Studies
+    HDES - Human Dimensions of Env Sys
+    HDFS - Human Dev and Family Studies
+    HEBR - Hebrew, Modern and Classical
+    HIST - History
+    HNDI - Hindi
+    HORT - Horticulture
+    HRD - Human Resource Development
+    HT - Health Technology
+    HUM - Humanities Courses
+    IB - Integrative Biology
+    IE - Industrial Engineering
+    IHLT - I-Health
+    INFO - Informatics
+    IS - Information Sciences
+    ITAL - Italian
+    JAPN - Japanese
+    JOUR - Journalism
+    JS - Jewish Studies
+    KIN - Kinesiology
+    KOR - Korean
+    LA - Landscape Architecture
+    LAS - Liberal Arts and Sciences
+    LAST - Latin American & Caribbean St
+    LAT - Latin
+    LAW - Law
+    LCTL - Less Commonly Taught Languages
+    LEAD - Organizational & Community Leadership
+    LER - Labor and Employment Relations
+    LGLA - Lingala
+    LING - Linguistics
+    LLS - Latina/Latino Studies
+    MACS - Media and Cinema Studies
+    MATH - Mathematics
+    MBA - MBA Program
+    MCB - Molecular and Cell Biology
+    MDIA - Media
+    MDVL - Medieval Studies
+    ME - Mechanical Engineering
+    MFST - Metropolitan Food & Environmental Systems
+    MICR - Microbiology
+    MILS - Military Science
+    MIP - Moleculr & Integrative Physiology
+    MSE - Materials Science & Engineering
+    MSP - Medical Scholars Program
+    MUSC - Music Lessons and Ensembles
+    MUSE - Museum Studies
+    MUS - Music
+    NE - Neural Engineering
+    NEUR - Neuroscience
+    NPRE - Nuclear, Plasma, Radiological Engineering
+    NRES - Natural Resources & Environ Sc
+    NS - Naval Science
+    NUTR - Nutritional Sciences
+    PATH - Pathobiology
+    PBIO - Plant Biology
+    PERS - Persian
+    PHIL - Philosophy
+    PHYS - Physics
+    PLPA - Plant Pathology
+    POL - Polish
+    PORT - Portuguese
+    PSM - Professional Science Master
+    PS - Political Science
+    PSYC - Psychology
+    QUEC - Quechua
+    REES - Russian, East European and Eurasian Studies
+    REHB - Rehabilitation Counseling
+    REL - Religion
+    RHET - Rhetoric and Composition
+    RMLG - Romance Linguistics
+    RST - Recreation, Sport, and Tourism
+    RUSS - Russian
+    SAME - South Asian & Middle Eastern
+    SBC - Strategic Brand Communication
+    SCAN - Scandinavian
+    SE - Systems Engineering and Design
+    SHS - Speech and Hearing Science
+    SLAV - Slavic
+    SLCL - Literatures Cultures Linguistics
+    SNSK - Sanskrit
+    SOC - Sociology
+    SOCW - Social Work
+    SPAN - Spanish
+    SPED - Special Education
+    STAT - Statistics
+    SWAH - Swahili
+    TAM - Theoretical and Applied Mechanics
+    TE - Technology Entrepreneurship
+    THEA - Theatre
+    TMGT - Technology and Management
+    TRST - Translation Studies
+    TURK - Turkish
+    UKR - Ukrainian
+    UP - Urban and Regional Planning
+    VCM - Veterinary Clinical Medicine
+    VM - Veterinary Medicine Courses
+    WGGP - Women and Gender in Global Perspectives
+    WLOF - Wolof
+    WRIT - Writing Studies
+    YDSH - Yiddish
+    ZULU - Zulu

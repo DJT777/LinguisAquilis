@@ -1,0 +1,132 @@
+{% extends "base.html" %} {% block title %} Home Page {% endblock %} {% block
+content %}
+<main>
+  <section class="index-body">
+    <div class="columns">
+      <div
+        class="index-heading column is-half is-offset-one-quarter is-centered is-center"
+      >
+        <h1 class="index-heading title is-1 is-centered">
+          Find Courses That Fit Your Lifestyle
+        </h1>
+        <form action="/findcourses" method="GET">
+          <button
+            type="submit"
+            name="submitButton"
+            value="Find Courses"
+            class="button is-link is-large"
+          >
+            <i class="my-icon fa-solid fa-graduation-cap"></i>
+            Find Courses
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <section class="main-section">
+    <div class="columns">
+      <div class="column is-full">
+        <section class="hero is-large is-link">
+          <div class="hero-body">
+            <p class="title">Find Quick Recommendations</p>
+            <p class="subtitle">I want to learn...</p>
+            <div class="quick">
+              <form action="/" method="post">
+                {% for x in quickRec %}
+                <button
+                  type="submit"
+                  name="query"
+                  value="{{x['query']}}"
+                  class="quick-rec is-responsive button is-outlined is-rounded"
+                >
+                  <i class="my-icon {{x['class']}}"></i>
+                  {{x['name']}}
+                </button>
+                {% endfor %}
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+  <section class="main-section">
+    <div class="column is-half is-offset-one-quarter is-centered is-center">
+      <h1 class="title is-1 is-centered">We have it all</h1>
+    </div>
+    <nav class="level">
+      <div class="level-item has-text-centered">
+        <i class="my-icon level-icon fa-solid fa-book"></i>
+        <div>
+          <p class="heading">Courses</p>
+          <p class="title">56+</p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <i class="my-icon level-icon fa-solid fa-building-columns"></i>
+        <div>
+          <p class="heading">Colleges</p>
+          <p class="title">6+</p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <i class="my-icon level-icon fa-solid fa-graduation-cap"></i>
+        <div>
+          <p class="heading">Majors</p>
+          <p class="title">81+</p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <i class="my-icon level-icon fa-solid fa-user-graduate"></i>
+        <div>
+          <p class="heading">Students</p>
+          <p class="title">1789</p>
+        </div>
+      </div>
+    </nav>
+  </section>
+  <section class="section">
+    <div class="container">
+      <section class="hero is-link">
+        <div class="hero-grid hero-body">
+          <figure class="hero-grid-item">
+            <img
+              src="/static/images/about1.jpg"
+              alt="Students At Library"
+              class="image"
+            />
+          </figure>
+          <div class="hero-grid-item">
+            <p class="title is-2">Your Academic Journey Starts Here.</p>
+            <p class="subtitle">Find courses that you'll enjoy.</p>
+            <a href="{{ url_for('findcourses') }}">
+              <button class="button is-medium is-responsive">
+                <i class="my-icon fa-solid fa-square-up-right"></i>
+                Find courses
+              </button>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+  <section class="section main">
+    <div class="tile is-ancesor">
+      <div class="tile is-vertical-is-4">
+        <div class="tile">
+          <article class="tile is-child notification is-link">
+            <p class="title">Did not find what you were looking for?</p>
+            <p class="subtitle">Check Out the Bulletin</p>
+            <a href="http://usi.edu">
+              <button class="button is-medium is-responsive">
+                <i class="my-icon fa-solid fa-square-up-right"></i>
+                Bulletin
+              </button>
+            </a>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

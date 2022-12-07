@@ -9,6 +9,31 @@ content %}
         <h1 class="index-heading title is-1 is-centered">
           Find Courses That Fit Your Lifestyle
         </h1>
+        <form action="/" method="POST">
+                <div class="select is-large">
+                  <select name="model">
+                    <option value="USE">USE</option>
+                    <option value="BERT">BERT</option>
+                    <option value="OpenAI">OpenAI</option>
+                    <option value="ELMO">ELMO</option>
+                    <option value="GloVe">GloVe</option>
+                    <option value="Word2Vec">Word2Vec</option>
+                    <option value="TF-IDF">TF-IDF</option>
+                    <option value="Bag of Words">BagOfWords</option>
+                  </select>
+                </div>
+                <br>
+                <!-- Add a button to load the selected model -->
+                <button
+                  type="submit"
+                  name="loadModelButton"
+                  value="Load Model"
+                  class="button is-link is-large"
+                >
+                  <i class="my-icon fa-solid fa-cogs"></i>
+                  Load Model
+                </button>
+        </form>
         <form action="/findcourses" method="GET">
           <button
             type="submit"
@@ -19,6 +44,7 @@ content %}
             <i class="my-icon fa-solid fa-graduation-cap"></i>
             Find Courses
           </button>
+          <br>
         </form>
       </div>
     </div>
@@ -31,19 +57,30 @@ content %}
             <p class="title">Find Quick Recommendations</p>
             <p class="subtitle">I want to learn...</p>
             <div class="quick">
-              <form action="/" method="post">
-                {% for x in quickRec %}
+              <form action="/load_model" method="POST">
+                <div class="select is-large">
+                  <select name="model">
+                    <option value="USE">USE</option>
+                    <option value="BERT">BERT</option>
+                    <option value="OpenAI">OpenAI</option>
+                    <option value="ELMO">ELMO</option>
+                    <option value="GloVe">GloVe</option>
+                    <option value="Word2Vec">Word2Vec</option>
+                    <option value="TF-IDF">TF-IDF</option>
+                    <option value="Bag of Words">BagOfWords</option>
+                  </select>
+                </div>
+                <br>
+                <!-- Add a button to load the selected model -->
                 <button
                   type="submit"
-                  name="query"
-                  value="{{x['query']}}"
-                  class="quick-rec is-responsive button is-outlined is-rounded"
+                  name="loadModelButton"
+                  value="Load Model"
+                  class="button is-link is-large"
                 >
-                  <i class="my-icon {{x['class']}}"></i>
-                  {{x['name']}}
+                  <i class="my-icon fa-solid fa-cogs"></i>
+                  Load Model
                 </button>
-                {% endfor %}
-              </form>
             </div>
           </div>
         </section>
