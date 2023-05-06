@@ -18,6 +18,7 @@ np_config.enable_numpy_behavior()
 
 class USE:
     def __init__(self, model_url):
+        #untested change of url for GitHub. Check earlier commit for example filepath to run the universal-sentence-encoder locally. 
         self.model = hub.load('https://tfhub.dev/google/universal-sentence-encoder/4')
         self.type = 'USE'
 
