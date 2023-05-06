@@ -14,7 +14,7 @@ max_tokens = 8000  # the maximum for text-embedding-ada-002 is 8191
 
 class OpenAI:
     def __init__(self, api_key):
-        self.api_key = "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"
+        self.api_key = ""
         openai.api_key = self.api_key
         self.type = 'OpenAI'
 
