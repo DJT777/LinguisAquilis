@@ -18,7 +18,7 @@ np_config.enable_numpy_behavior()
 
 class USE:
     def __init__(self, model_url):
-        self.model = hub.load('')
+        self.model = hub.load('https://tfhub.dev/google/universal-sentence-encoder/4')
         self.type = 'USE'
 
 
